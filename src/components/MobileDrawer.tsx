@@ -1,3 +1,4 @@
+
 import { useEffect } from "react";
 import { 
   Home, 
@@ -55,55 +56,55 @@ export const MobileDrawer = ({ isOpen, onClose }: MobileDrawerProps) => {
 
   return (
     <>
-      {/* Backdrop */}
+      {/* Backdrop - Softer */}
       <div
         className={`fixed inset-0 z-50 transition-opacity duration-300 ${
           isOpen 
-            ? 'opacity-100 bg-black bg-opacity-40' 
+            ? 'opacity-100 bg-neutral-900/20 backdrop-blur-sm' 
             : 'opacity-0 pointer-events-none'
         }`}
         onClick={onClose}
       />
 
-      {/* Drawer - Flat Design */}
+      {/* Drawer - Modern Minimalist */}
       <div
-        className={`fixed top-0 left-0 z-50 h-full w-80 max-w-[85vw] bg-white border-r border-gray-200 transform transition-transform duration-300 ease-out ${
+        className={`fixed top-0 left-0 z-50 h-full w-80 max-w-[85vw] bg-white/95 backdrop-blur-md transform transition-transform duration-300 ease-out ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+        {/* Header - Cleaner */}
+        <div className="flex items-center justify-between p-8 border-b border-neutral-100">
           <div>
-            <h2 className="text-2xl font-medium text-gray-900">
+            <h2 className="text-xl font-light text-neutral-800 tracking-wide">
               Menu
             </h2>
-            <p className="text-base text-gray-600 mt-1">
+            <p className="text-sm text-neutral-500 font-light mt-1">
               Navigate your app
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-2 bg-gray-100 hover:bg-gray-200 transition-colors duration-200"
+            className="p-2 rounded-full hover:bg-neutral-100 transition-colors duration-200"
             aria-label="Close menu"
           >
-            <X className="w-5 h-5 text-gray-700" />
+            <X className="w-4 h-4 text-neutral-600" />
           </button>
         </div>
 
-        {/* Menu Items - Flat Design */}
-        <nav className="flex-1 py-6">
-          <ul className="space-y-2 px-6">
+        {/* Menu Items - Minimalist */}
+        <nav className="flex-1 py-8">
+          <ul className="space-y-2 px-8">
             {menuItems.map((item) => (
               <li key={item.label}>
                 <a
                   href={item.href}
-                  className="flex items-center space-x-4 px-4 py-4 hover:bg-gray-50 transition-colors duration-200 group"
+                  className="flex items-center space-x-4 px-4 py-4 rounded-lg hover:bg-neutral-50 transition-colors duration-200 group"
                   onClick={onClose}
                 >
-                  <div className="w-10 h-10 bg-gray-100 group-hover:bg-blue-100 flex items-center justify-center transition-colors duration-200">
-                    <item.icon className="w-5 h-5 text-gray-700 group-hover:text-blue-600" />
+                  <div className="w-8 h-8 flex items-center justify-center">
+                    <item.icon className="w-4 h-4 text-neutral-600 group-hover:text-neutral-800 transition-colors duration-200" />
                   </div>
-                  <span className="text-lg font-medium text-gray-900 group-hover:text-blue-600 transition-colors duration-200">
+                  <span className="text-base font-light text-neutral-700 group-hover:text-neutral-900 transition-colors duration-200">
                     {item.label}
                   </span>
                 </a>
@@ -112,17 +113,17 @@ export const MobileDrawer = ({ isOpen, onClose }: MobileDrawerProps) => {
           </ul>
         </nav>
 
-        {/* Footer */}
-        <div className="p-6 border-t border-gray-200">
+        {/* Footer - Simplified */}
+        <div className="p-8 border-t border-neutral-100">
           <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-blue-500 flex items-center justify-center">
-              <User className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 bg-neutral-800 rounded-full flex items-center justify-center">
+              <User className="w-5 h-5 text-white" />
             </div>
             <div>
-              <p className="text-lg font-medium text-gray-900">
+              <p className="text-base font-light text-neutral-800">
                 John Doe
               </p>
-              <p className="text-base text-gray-600">
+              <p className="text-sm text-neutral-500 font-light">
                 john@example.com
               </p>
             </div>
