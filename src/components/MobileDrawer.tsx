@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { 
   Home, 
@@ -58,54 +57,53 @@ export const MobileDrawer = ({ isOpen, onClose }: MobileDrawerProps) => {
     <>
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 z-50 transition-all duration-300 ${
+        className={`fixed inset-0 z-50 transition-opacity duration-300 ${
           isOpen 
-            ? 'opacity-100 backdrop-blur-sm bg-black/40' 
+            ? 'opacity-100 bg-black bg-opacity-40' 
             : 'opacity-0 pointer-events-none'
         }`}
         onClick={onClose}
       />
 
-      {/* Drawer */}
+      {/* Drawer - Flat Design */}
       <div
-        className={`fixed top-0 left-0 z-50 h-full w-80 max-w-[85vw] bg-white dark:bg-slate-900 shadow-2xl transform transition-transform duration-300 ease-out ${
+        className={`fixed top-0 left-0 z-50 h-full w-80 max-w-[85vw] bg-white border-r border-gray-200 transform transition-transform duration-300 ease-out ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-700">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <div>
-            <h2 className="text-xl font-bold text-slate-800 dark:text-slate-200">
+            <h2 className="text-2xl font-medium text-gray-900">
               Menu
             </h2>
-            <p className="text-sm text-slate-500 dark:text-slate-400">
+            <p className="text-base text-gray-600 mt-1">
               Navigate your app
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
+            className="p-2 bg-gray-100 hover:bg-gray-200 transition-colors duration-200"
             aria-label="Close menu"
           >
-            <X className="w-5 h-5 text-slate-600 dark:text-slate-300" />
+            <X className="w-5 h-5 text-gray-700" />
           </button>
         </div>
 
-        {/* Menu Items */}
-        <nav className="flex-1 py-4">
-          <ul className="space-y-1 px-3">
-            {menuItems.map((item, index) => (
+        {/* Menu Items - Flat Design */}
+        <nav className="flex-1 py-6">
+          <ul className="space-y-2 px-6">
+            {menuItems.map((item) => (
               <li key={item.label}>
                 <a
                   href={item.href}
-                  className={`flex items-center space-x-3 px-3 py-3 rounded-xl transition-all duration-200 hover:bg-slate-100 dark:hover:bg-slate-800 group animate-fade-in`}
-                  style={{ animationDelay: `${index * 50}ms` }}
+                  className="flex items-center space-x-4 px-4 py-4 hover:bg-gray-50 transition-colors duration-200 group"
                   onClick={onClose}
                 >
-                  <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500/10 to-purple-600/10 group-hover:from-blue-500/20 group-hover:to-purple-600/20 transition-colors duration-200">
-                    <item.icon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                  <div className="w-10 h-10 bg-gray-100 group-hover:bg-blue-100 flex items-center justify-center transition-colors duration-200">
+                    <item.icon className="w-5 h-5 text-gray-700 group-hover:text-blue-600" />
                   </div>
-                  <span className="font-medium text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-slate-100 transition-colors duration-200">
+                  <span className="text-lg font-medium text-gray-900 group-hover:text-blue-600 transition-colors duration-200">
                     {item.label}
                   </span>
                 </a>
@@ -115,16 +113,16 @@ export const MobileDrawer = ({ isOpen, onClose }: MobileDrawerProps) => {
         </nav>
 
         {/* Footer */}
-        <div className="p-6 border-t border-slate-200 dark:border-slate-700">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-              <User className="w-5 h-5 text-white" />
+        <div className="p-6 border-t border-gray-200">
+          <div className="flex items-center space-x-4">
+            <div className="w-12 h-12 bg-blue-500 flex items-center justify-center">
+              <User className="w-6 h-6 text-white" />
             </div>
             <div>
-              <p className="font-medium text-slate-800 dark:text-slate-200">
+              <p className="text-lg font-medium text-gray-900">
                 John Doe
               </p>
-              <p className="text-sm text-slate-500 dark:text-slate-400">
+              <p className="text-base text-gray-600">
                 john@example.com
               </p>
             </div>
