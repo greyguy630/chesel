@@ -1,102 +1,104 @@
 
 import { useState } from "react";
 import { MobileDrawer } from "@/components/MobileDrawer";
-import { Menu, Dumbbell, Scan, Users, Home as HomeIcon } from "lucide-react";
+import { GenderSelection } from "@/components/GenderSelection";
+import { DailyProtocol } from "@/components/DailyProtocol";
+import { FitnessModule } from "@/components/FitnessModule";
+import { FashionModule } from "@/components/FashionModule";
+import { BodyModule } from "@/components/BodyModule";
+import { PresenceModule } from "@/components/PresenceModule";
+import { Menu, Home as HomeIcon, Dumbbell, Shirt, Scan, Brain } from "lucide-react";
 
 const Index = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [selectedGender, setSelectedGender] = useState<string | null>(null);
+  const [activeModule, setActiveModule] = useState("home");
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
 
   const bottomNavItems = [
-    { icon: Dumbbell, label: "Fitness", href: "#" },
-    { icon: Scan, label: "Facial", href: "#" },
-    { icon: Users, label: "Presence", href: "#" },
-    { icon: HomeIcon, label: "My Space", href: "#" },
+    { id: "home", icon: HomeIcon, label: "Home" },
+    { id: "fitness", icon: Dumbbell, label: "Fitness" },
+    { id: "fashion", icon: Shirt, label: "Fashion" },
+    { id: "body", icon: Scan, label: "Body" },
+    { id: "presence", icon: Brain, label: "Presence" },
   ];
 
+  const renderActiveModule = () => {
+    switch (activeModule) {
+      case "home":
+        return <DailyProtocol />;
+      case "fitness":
+        return <FitnessModule />;
+      case "fashion":
+        return <FashionModule />;
+      case "body":
+        return <BodyModule selectedGender={selectedGender} />;
+      case "presence":
+        return <PresenceModule />;
+      default:
+        return <DailyProtocol />;
+    }
+  };
+
+  // Show gender selection if no gender is selected
+  if (!selectedGender) {
+    return <GenderSelection onGenderSelect={setSelectedGender} />;
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      {/* Header - Flat Design */}
-      <header className="bg-white border-b border-gray-200">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex flex-col relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0 bg-gradient-to-r from-blue-100/20 to-purple-100/20 pointer-events-none" />
+      <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-indigo-200/30 to-transparent rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-blue-200/30 to-transparent rounded-full blur-3xl pointer-events-none" />
+
+      {/* Header */}
+      <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200/50 relative z-10">
         <div className="flex items-center justify-between px-6 py-4">
           <button
             onClick={toggleDrawer}
-            className="p-3 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+            className="p-3 bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-xl hover:bg-white hover:shadow-lg transition-all duration-200"
             aria-label="Open menu"
           >
             <Menu className="w-5 h-5 text-gray-700" />
           </button>
           
-          <h1 className="text-xl font-normal text-black">
-            Mobile App
+          <h1 className="text-xl font-medium text-gray-900 tracking-tight">
+            Chesel
           </h1>
           
           <div className="w-11" />
         </div>
       </header>
 
-      {/* Main Content - Centered and Flat */}
-      <main className="flex-1 flex items-center justify-center px-6">
-        <div className="w-full max-w-sm space-y-8 text-center">
-          <div className="space-y-4">
-            <h2 className="text-3xl font-normal text-black">
-              Welcome Back
-            </h2>
-            <p className="text-lg text-gray-600">
-              Tap the menu icon to open the slide drawer
-            </p>
-          </div>
-
-          {/* Sample Cards - Flat Design */}
-          <div className="space-y-4">
-            {[1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className="bg-white border border-gray-200 rounded-lg p-6 text-left hover:shadow-sm transition-shadow"
-              >
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center">
-                    <span className="text-white text-lg font-normal">{i}</span>
-                  </div>
-                  <div className="space-y-1">
-                    <h3 className="text-lg font-normal text-black">
-                      Card Item {i}
-                    </h3>
-                    <p className="text-base text-gray-600">
-                      Sample content for card {i}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Primary Action Button - Flat Design 2.0 */}
-          <button className="w-full bg-black text-white py-4 px-6 rounded-lg text-lg font-normal shadow-sm hover:shadow-md transition-shadow">
-            Continue
-          </button>
-        </div>
+      {/* Main Content */}
+      <main className="flex-1 relative z-10">
+        {renderActiveModule()}
       </main>
 
-      {/* Bottom Navigation - Flat Design */}
-      <nav className="bg-white border-t border-gray-200">
-        <div className="flex items-center justify-around px-4 py-3">
-          {bottomNavItems.map((item, index) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className="flex flex-col items-center space-y-2 py-3 px-4 rounded-lg hover:bg-gray-50 transition-colors"
+      {/* Bottom Navigation */}
+      <nav className="bg-white/90 backdrop-blur-sm border-t border-gray-200/50 relative z-10">
+        <div className="flex items-center justify-around px-2 py-2">
+          {bottomNavItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => setActiveModule(item.id)}
+              className={`flex flex-col items-center space-y-1 py-3 px-4 rounded-xl transition-all duration-200 ${
+                activeModule === item.id
+                  ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg shadow-indigo-500/25'
+                  : 'text-gray-600 hover:bg-gray-100/50'
+              }`}
             >
               <div className="w-6 h-6 flex items-center justify-center">
-                <item.icon className="w-6 h-6 text-gray-700" />
+                <item.icon className="w-5 h-5" />
               </div>
-              <span className="text-sm font-normal text-gray-700">
+              <span className="text-xs font-medium">
                 {item.label}
               </span>
-            </a>
+            </button>
           ))}
         </div>
       </nav>
