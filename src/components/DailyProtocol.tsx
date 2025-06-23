@@ -18,12 +18,12 @@ export const DailyProtocol = () => {
         </div>
 
         {/* Mission Card */}
-        <div className="bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-2xl p-6 shadow-lg shadow-gray-900/5 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300">
+        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
           <div className="space-y-4">
             {/* Task 1 - Fitness */}
             <div className="flex items-start space-x-3">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                <Zap className="w-4 h-4 text-white" />
+              <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                <Zap className="w-4 h-4 text-gray-600" />
               </div>
               <div className="flex-1">
                 <h3 className="font-medium text-gray-900 mb-1">Fitness Protocol</h3>
@@ -35,8 +35,8 @@ export const DailyProtocol = () => {
 
             {/* Task 2 - Presence */}
             <div className="flex items-start space-x-3">
-              <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                <Target className="w-4 h-4 text-white" />
+              <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                <Target className="w-4 h-4 text-gray-600" />
               </div>
               <div className="flex-1">
                 <h3 className="font-medium text-gray-900 mb-1">Presence Protocol</h3>
@@ -54,8 +54,8 @@ export const DailyProtocol = () => {
           disabled={isCompleted}
           className={`w-full py-4 px-6 rounded-2xl font-medium transition-all duration-200 ${
             isCompleted
-              ? 'bg-green-500 text-white shadow-lg shadow-green-500/25'
-              : 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:shadow-lg hover:shadow-indigo-500/25 active:scale-95'
+              ? 'bg-green-500 text-white'
+              : 'bg-black text-white hover:bg-gray-800'
           }`}
         >
           {isCompleted ? (

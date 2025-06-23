@@ -49,24 +49,19 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex flex-col relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-100/20 to-purple-100/20 pointer-events-none" />
-      <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-indigo-200/30 to-transparent rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-blue-200/30 to-transparent rounded-full blur-3xl pointer-events-none" />
-
+    <div className="min-h-screen bg-white flex flex-col">
       {/* Header */}
-      <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200/50 relative z-10">
+      <header className="bg-white border-b border-gray-200">
         <div className="flex items-center justify-between px-6 py-4">
           <button
             onClick={toggleDrawer}
-            className="p-3 bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-xl hover:bg-white hover:shadow-lg transition-all duration-200"
+            className="p-3 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-all duration-200"
             aria-label="Open menu"
           >
             <Menu className="w-5 h-5 text-gray-700" />
           </button>
           
-          <h1 className="text-xl font-medium text-gray-900 tracking-tight">
+          <h1 className="text-xl font-medium text-gray-900">
             Chesel
           </h1>
           
@@ -75,12 +70,12 @@ const Index = () => {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 relative z-10">
+      <main className="flex-1">
         {renderActiveModule()}
       </main>
 
       {/* Bottom Navigation */}
-      <nav className="bg-white/90 backdrop-blur-sm border-t border-gray-200/50 relative z-10">
+      <nav className="bg-white border-t border-gray-200">
         <div className="flex items-center justify-around px-2 py-2">
           {bottomNavItems.map((item) => (
             <button
@@ -88,8 +83,8 @@ const Index = () => {
               onClick={() => setActiveModule(item.id)}
               className={`flex flex-col items-center space-y-1 py-3 px-4 rounded-xl transition-all duration-200 ${
                 activeModule === item.id
-                  ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg shadow-indigo-500/25'
-                  : 'text-gray-600 hover:bg-gray-100/50'
+                  ? 'bg-black text-white'
+                  : 'text-gray-600 hover:bg-gray-100'
               }`}
             >
               <div className="w-6 h-6 flex items-center justify-center">
