@@ -31,15 +31,15 @@ export const BodyModule = ({ selectedGender }: BodyModuleProps) => {
               <p className="text-gray-600">Upload a clear, front-facing photo for comprehensive facial analysis</p>
             </div>
 
-            <div className="bg-white/80 backdrop-blur-sm border-2 border-dashed border-gray-300 rounded-2xl p-12 text-center hover:border-indigo-400 transition-all duration-300">
-              <div className="w-20 h-20 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl mx-auto mb-6 flex items-center justify-center">
+            <div className="bg-white/80 backdrop-blur-sm border-2 border-dashed border-gray-300 rounded-2xl p-12 text-center hover:border-gray-400 transition-all duration-300">
+              <div className="w-20 h-20 bg-black rounded-2xl mx-auto mb-6 flex items-center justify-center">
                 <Scan className="w-10 h-10 text-white" />
               </div>
               <p className="text-gray-600 mb-6">Drop your photo here or click to browse</p>
               <div className="space-y-3">
                 <button
                   onClick={handleUpload}
-                  className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-3 rounded-xl font-medium hover:shadow-lg transition-all duration-200"
+                  className="w-full bg-black text-white py-3 rounded-xl font-medium hover:bg-gray-800 transition-all duration-200"
                 >
                   <Upload className="w-4 h-4 inline mr-2" />
                   Upload Photo
@@ -64,10 +64,10 @@ export const BodyModule = ({ selectedGender }: BodyModuleProps) => {
 
             <div className="bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-2xl p-12 text-center">
               <div className="relative w-24 h-24 mx-auto mb-6">
-                <div className="absolute inset-0 border-4 border-indigo-200 rounded-full"></div>
-                <div className="absolute inset-0 border-4 border-indigo-600 rounded-full border-t-transparent animate-spin"></div>
+                <div className="absolute inset-0 border-4 border-gray-200 rounded-full"></div>
+                <div className="absolute inset-0 border-4 border-black rounded-full border-t-transparent animate-spin"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <Scan className="w-8 h-8 text-indigo-600" />
+                  <Scan className="w-8 h-8 text-black" />
                 </div>
               </div>
               <p className="text-gray-600">Analyzing 47 facial parameters...</p>
@@ -82,8 +82,8 @@ export const BodyModule = ({ selectedGender }: BodyModuleProps) => {
           {/* Score Meter */}
           <div className="bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-2xl p-6 text-center shadow-lg relative overflow-hidden">
             {/* Background Graphics */}
-            <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/50 to-purple-50/50 pointer-events-none" />
-            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-indigo-200/20 to-transparent rounded-full blur-2xl pointer-events-none" />
+            <div className="absolute inset-0 bg-gray-50 pointer-events-none" />
+            <div className="absolute top-0 right-0 w-32 h-32 bg-gray-200/20 rounded-full blur-2xl pointer-events-none" />
             
             <div className="relative z-10">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Face Score</h3>
@@ -103,7 +103,7 @@ export const BodyModule = ({ selectedGender }: BodyModuleProps) => {
                     cx="64"
                     cy="64"
                     r="56"
-                    stroke="url(#gradient)"
+                    stroke="#000000"
                     strokeWidth="8"
                     fill="none"
                     strokeDasharray="351.86"
@@ -111,12 +111,6 @@ export const BodyModule = ({ selectedGender }: BodyModuleProps) => {
                     strokeLinecap="round"
                     className="transition-all duration-1000 ease-out"
                   />
-                  <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#6366f1" />
-                      <stop offset="100%" stopColor="#a855f7" />
-                    </linearGradient>
-                  </defs>
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center">
@@ -137,7 +131,7 @@ export const BodyModule = ({ selectedGender }: BodyModuleProps) => {
                 <span className="text-sm text-gray-600">Facial Symmetry</span>
                 <div className="flex items-center space-x-2">
                   <div className="w-16 bg-gray-200 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-green-400 to-green-600 h-2 rounded-full" style={{ width: '82%' }}></div>
+                    <div className="bg-black h-2 rounded-full" style={{ width: '82%' }}></div>
                   </div>
                   <span className="text-sm font-medium text-gray-900">82</span>
                 </div>
@@ -146,7 +140,7 @@ export const BodyModule = ({ selectedGender }: BodyModuleProps) => {
                 <span className="text-sm text-gray-600">Golden Ratio</span>
                 <div className="flex items-center space-x-2">
                   <div className="w-16 bg-gray-200 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-yellow-400 to-orange-500 h-2 rounded-full" style={{ width: '74%' }}></div>
+                    <div className="bg-gray-700 h-2 rounded-full" style={{ width: '74%' }}></div>
                   </div>
                   <span className="text-sm font-medium text-gray-900">74</span>
                 </div>
@@ -155,7 +149,7 @@ export const BodyModule = ({ selectedGender }: BodyModuleProps) => {
                 <span className="text-sm text-gray-600">Jawline Definition</span>
                 <div className="flex items-center space-x-2">
                   <div className="w-16 bg-gray-200 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-blue-400 to-blue-600 h-2 rounded-full" style={{ width: '68%' }}></div>
+                    <div className="bg-gray-600 h-2 rounded-full" style={{ width: '68%' }}></div>
                   </div>
                   <span className="text-sm font-medium text-gray-900">68</span>
                 </div>
@@ -202,7 +196,7 @@ export const BodyModule = ({ selectedGender }: BodyModuleProps) => {
               onClick={() => setActiveTab(tab.id)}
               className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-xl transition-all duration-200 ${
                 activeTab === tab.id
-                  ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg'
+                  ? 'bg-black text-white shadow-lg'
                   : 'text-gray-600 hover:bg-gray-100/50'
               }`}
             >
