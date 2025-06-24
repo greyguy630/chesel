@@ -9,7 +9,10 @@ import {
   Search, 
   Mail, 
   Star,
-  X 
+  X,
+  Folder,
+  Calendar,
+  Clock
 } from "lucide-react";
 
 interface MobileDrawerProps {
@@ -89,6 +92,42 @@ export const MobileDrawer = ({ isOpen, onClose }: MobileDrawerProps) => {
           >
             <X className="w-5 h-5 text-gray-700" />
           </button>
+        </div>
+
+        {/* Project Section */}
+        <div className="p-6 border-b border-gray-200">
+          <div className="bg-black rounded-2xl p-4 text-white">
+            <div className="flex items-center space-x-3 mb-3">
+              <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                <Folder className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold">Chesel Project</h3>
+                <p className="text-white/70 text-sm">Personal Development</p>
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-white/80">Progress</span>
+                <span className="text-white font-medium">68%</span>
+              </div>
+              <div className="w-full bg-white/20 rounded-full h-2">
+                <div className="bg-white h-2 rounded-full" style={{ width: '68%' }}></div>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/20">
+              <div className="flex items-center space-x-2 text-white/80 text-sm">
+                <Calendar className="w-4 h-4" />
+                <span>Last updated</span>
+              </div>
+              <div className="flex items-center space-x-1 text-white/80 text-sm">
+                <Clock className="w-4 h-4" />
+                <span>Today</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Menu Items - Flat List */}
