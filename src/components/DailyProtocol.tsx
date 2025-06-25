@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Search, Scan, Target, Dumbbell, Utensils, Moon, CheckCircle, Plus, Power } from "lucide-react";
+import { Search, Utensils, Target, Dumbbell, Moon, CheckCircle, Plus, Power } from "lucide-react";
 
 export const DailyProtocol = () => {
   const [scannedFood, setScannedFood] = useState<string | null>(null);
@@ -65,15 +65,15 @@ export const DailyProtocol = () => {
         <div className="flex space-x-3">
           <button
             onClick={() => setShowQuitModal(true)}
-            className="p-3 bg-red-500 text-white rounded-xl hover:bg-red-600 transition-colors shadow-lg"
+            className="p-3 bg-black text-white rounded-xl hover:bg-gray-800 transition-colors shadow-lg"
           >
             <Power className="w-6 h-6" />
           </button>
           <button
             onClick={handleFoodScan}
-            className="p-3 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-colors shadow-lg relative"
+            className="p-3 bg-black text-white rounded-xl hover:bg-gray-800 transition-colors shadow-lg relative"
           >
-            <Scan className="w-6 h-6" />
+            <Utensils className="w-6 h-6" />
             {scannedFood && (
               <div className="absolute top-16 right-0 bg-white border border-gray-200 rounded-lg p-3 shadow-lg whitespace-nowrap z-10">
                 <p className="text-sm font-medium">{scannedFood}</p>
