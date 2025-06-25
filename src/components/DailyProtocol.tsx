@@ -1,16 +1,16 @@
 
 import { useState } from "react";
-import { Search, QrCode, Target, Dumbbell, Utensils, Moon, CheckCircle, Plus, Power } from "lucide-react";
+import { Search, Scan, Target, Dumbbell, Utensils, Moon, CheckCircle, Plus, Power } from "lucide-react";
 
 export const DailyProtocol = () => {
   const [scannedFood, setScannedFood] = useState<string | null>(null);
   const [showQuitModal, setShowQuitModal] = useState(false);
 
   const quickActions = [
-    { icon: Target, label: "Set Goal", color: "bg-blue-500" },
-    { icon: Dumbbell, label: "Quick Workout", color: "bg-green-500" },
-    { icon: Utensils, label: "Log Meal", color: "bg-orange-500" },
-    { icon: Moon, label: "Sleep Tracker", color: "bg-purple-500" },
+    { icon: Target, label: "Set Goal", color: "bg-black" },
+    { icon: Dumbbell, label: "Quick Workout", color: "bg-black" },
+    { icon: Utensils, label: "Log Meal", color: "bg-black" },
+    { icon: Moon, label: "Sleep Tracker", color: "bg-black" },
   ];
 
   const dailyProgress = [
@@ -21,10 +21,10 @@ export const DailyProtocol = () => {
   ];
 
   const shortcuts = [
-    { name: "Gym Routine", icon: Dumbbell, color: "bg-red-500" },
-    { name: "Meal Plan", icon: Utensils, color: "bg-green-500" },
-    { name: "Sleep Schedule", icon: Moon, color: "bg-blue-500" },
-    { name: "Goals", icon: Target, color: "bg-purple-500" },
+    { name: "Gym Routine", icon: Dumbbell, color: "bg-black" },
+    { name: "Meal Plan", icon: Utensils, color: "bg-black" },
+    { name: "Sleep Schedule", icon: Moon, color: "bg-black" },
+    { name: "Goals", icon: Target, color: "bg-black" },
   ];
 
   const quitOptions = [
@@ -56,33 +56,31 @@ export const DailyProtocol = () => {
         />
       </div>
 
-      {/* Header */}
+      {/* Header with Icons */}
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-semibold text-gray-900">Daily Protocol</h2>
           <p className="text-gray-600">Stay on track with your goals</p>
         </div>
-      </div>
-
-      {/* Top Right Icons */}
-      <div className="absolute top-6 right-6 flex space-x-3">
-        <button
-          onClick={() => setShowQuitModal(true)}
-          className="p-3 bg-red-500 text-white rounded-xl hover:bg-red-600 transition-colors shadow-lg"
-        >
-          <Power className="w-6 h-6" />
-        </button>
-        <button
-          onClick={handleFoodScan}
-          className="p-3 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-colors shadow-lg"
-        >
-          <QrCode className="w-6 h-6" />
-        </button>
-        {scannedFood && (
-          <div className="absolute top-16 right-0 bg-white border border-gray-200 rounded-lg p-3 shadow-lg whitespace-nowrap z-10">
-            <p className="text-sm font-medium">{scannedFood}</p>
-          </div>
-        )}
+        <div className="flex space-x-3">
+          <button
+            onClick={() => setShowQuitModal(true)}
+            className="p-3 bg-red-500 text-white rounded-xl hover:bg-red-600 transition-colors shadow-lg"
+          >
+            <Power className="w-6 h-6" />
+          </button>
+          <button
+            onClick={handleFoodScan}
+            className="p-3 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-colors shadow-lg relative"
+          >
+            <Scan className="w-6 h-6" />
+            {scannedFood && (
+              <div className="absolute top-16 right-0 bg-white border border-gray-200 rounded-lg p-3 shadow-lg whitespace-nowrap z-10">
+                <p className="text-sm font-medium">{scannedFood}</p>
+              </div>
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Quick Actions */}

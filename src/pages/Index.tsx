@@ -92,9 +92,13 @@ const Index = () => {
             Chesel
           </h1>
           
-          <button className="p-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-all duration-200">
-            <Search className="w-5 h-5" />
-          </button>
+          {activeModule !== "home" ? (
+            <button className="p-3 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-all duration-200">
+              <Search className="w-5 h-5 text-black" />
+            </button>
+          ) : (
+            <div className="w-11" />
+          )}
         </div>
       </header>
 
