@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MobileDrawer } from "@/components/MobileDrawer";
 import { GenderSelection } from "@/components/GenderSelection";
 import { DailyProtocol } from "@/components/DailyProtocol";
@@ -13,6 +13,7 @@ const Index = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedGender, setSelectedGender] = useState<string | null>(null);
   const [activeModule, setActiveModule] = useState("home");
+  const [startX, setStartX] = useState<number | null>(null);
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -25,6 +26,32 @@ const Index = () => {
     { id: "body", icon: Scan, label: "Body" },
     { id: "presence", icon: Brain, label: "Presence" },
   ];
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (!startX) return;
+
+    const endX = e.changedTouches[0].clientX;
+    const diffX = startX - endX;
+    const threshold = 50; // Minimum swipe distance
+
+    if (Math.abs(diffX) > threshold) {
+      const currentIndex = bottomNavItems.findIndex(item => item.id === activeModule);
+      
+      if (diffX > 0 && currentIndex < bottomNavItems.length - 1) {
+        // Swipe left - next module
+        setActiveModule(bottomNavItems[currentIndex + 1].id);
+      } else if (diffX < 0 && currentIndex > 0) {
+        // Swipe right - previous module
+        setActiveModule(bottomNavItems[currentIndex - 1].id);
+      }
+    }
+    
+    setStartX(null);
+  };
 
   const renderActiveModule = () => {
     switch (activeModule) {
@@ -69,9 +96,15 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="flex-1">
-        {renderActiveModule()}
+      {/* Main Content with Swipe Navigation */}
+      <main 
+        className="flex-1 overflow-hidden"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        <div className="h-full overflow-y-auto">
+          {renderActiveModule()}
+        </div>
       </main>
 
       {/* Bottom Navigation */}
