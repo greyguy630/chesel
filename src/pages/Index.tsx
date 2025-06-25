@@ -7,7 +7,7 @@ import { FitnessModule } from "@/components/FitnessModule";
 import { FashionModule } from "@/components/FashionModule";
 import { BodyModule } from "@/components/BodyModule";
 import { PresenceModule } from "@/components/PresenceModule";
-import { Menu, Home as HomeIcon, Dumbbell, Shirt, Scan, Brain } from "lucide-react";
+import { Menu, Home as HomeIcon, Dumbbell, Shirt, Scan, Brain, Search } from "lucide-react";
 
 const Index = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -92,7 +92,9 @@ const Index = () => {
             Chesel
           </h1>
           
-          <div className="w-11" />
+          <button className="p-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-all duration-200">
+            <Search className="w-5 h-5" />
+          </button>
         </div>
       </header>
 

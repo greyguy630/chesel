@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Search, QrCode, Target, Dumbbell, Utensils, Moon, CheckCircle, Plus, X } from "lucide-react";
+import { Search, QrCode, Target, Dumbbell, Utensils, Moon, CheckCircle, Plus, Power } from "lucide-react";
 
 export const DailyProtocol = () => {
   const [scannedFood, setScannedFood] = useState<string | null>(null);
@@ -56,25 +56,25 @@ export const DailyProtocol = () => {
         />
       </div>
 
-      {/* Header with Quit Section Icon */}
+      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-semibold text-gray-900">Daily Protocol</h2>
           <p className="text-gray-600">Stay on track with your goals</p>
         </div>
-        <button
-          onClick={() => setShowQuitModal(true)}
-          className="p-3 bg-red-500 text-white rounded-xl hover:bg-red-600 transition-colors"
-        >
-          <X className="w-6 h-6" />
-        </button>
       </div>
 
-      {/* Food Scanner */}
-      <div className="absolute top-6 right-6">
+      {/* Top Right Icons */}
+      <div className="absolute top-6 right-6 flex space-x-3">
+        <button
+          onClick={() => setShowQuitModal(true)}
+          className="p-3 bg-red-500 text-white rounded-xl hover:bg-red-600 transition-colors shadow-lg"
+        >
+          <Power className="w-6 h-6" />
+        </button>
         <button
           onClick={handleFoodScan}
-          className="p-3 bg-black text-white rounded-xl hover:bg-gray-800 transition-colors shadow-lg"
+          className="p-3 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-colors shadow-lg"
         >
           <QrCode className="w-6 h-6" />
         </button>
@@ -145,7 +145,7 @@ export const DailyProtocol = () => {
                 onClick={() => setShowQuitModal(false)}
                 className="p-2 hover:bg-gray-100 rounded-lg"
               >
-                <X className="w-5 h-5" />
+                <Power className="w-5 h-5" />
               </button>
             </div>
             <p className="text-gray-600 mb-4">Choose what you want to quit:</p>
