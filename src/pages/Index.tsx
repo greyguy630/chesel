@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { MobileDrawer } from "@/components/MobileDrawer";
 import { GenderSelection } from "@/components/GenderSelection";
+import { HeightWeightSelection } from "@/components/HeightWeightSelection";
 import { DailyProtocol } from "@/components/DailyProtocol";
 import { FitnessModule } from "@/components/FitnessModule";
 import { FashionModule } from "@/components/FashionModule";
@@ -12,6 +13,7 @@ import { Menu, Home as HomeIcon, Dumbbell, Shirt, Scan, Brain, Search } from "lu
 const Index = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedGender, setSelectedGender] = useState<string | null>(null);
+  const [heightWeightData, setHeightWeightData] = useState<{height: string; weight: string; unit: string} | null>(null);
   const [activeModule, setActiveModule] = useState("home");
   const [startX, setStartX] = useState<number | null>(null);
 
@@ -73,6 +75,16 @@ const Index = () => {
   // Show gender selection if no gender is selected
   if (!selectedGender) {
     return <GenderSelection onGenderSelect={setSelectedGender} />;
+  }
+
+  // Show height/weight selection if gender is selected but height/weight data is not
+  if (selectedGender && !heightWeightData) {
+    return (
+      <HeightWeightSelection 
+        onComplete={setHeightWeightData}
+        onBack={() => setSelectedGender(null)}
+      />
+    );
   }
 
   return (
