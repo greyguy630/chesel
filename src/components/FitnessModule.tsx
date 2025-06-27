@@ -1,6 +1,5 @@
-
 import { useState } from "react";
-import { Upload, Camera, Target, Calendar, TrendingUp, Award, DollarSign, Utensils, Pill } from "lucide-react";
+import { Upload, Camera, Target, Calendar, TrendingUp, Award, DollarSign, Utensils, Pill, Dumbbell } from "lucide-react";
 
 export const FitnessModule = () => {
   const [step, setStep] = useState<'upload-current' | 'upload-goal' | 'results'>('upload-current');
