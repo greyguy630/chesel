@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Upload, Camera, Scan, Eye, Droplets, Scissors, User } from "lucide-react";
+import { Upload, Camera, Scan, Eye, Droplets, Scissors, User, Smile } from "lucide-react";
 
 interface BodyModuleProps {
   selectedGender: string | null;
@@ -14,6 +14,7 @@ export const BodyModule = ({ selectedGender }: BodyModuleProps) => {
     { id: 'face', label: 'Face', icon: Eye },
     { id: 'skin', label: 'Skin', icon: Droplets },
     { id: 'hair', label: 'Hair', icon: Scissors },
+    { id: 'oral', label: 'Oral', icon: Smile },
     ...(selectedGender === 'male' ? [{ id: 'beard', label: 'Beard', icon: User }] : []),
   ];
 
@@ -35,6 +36,12 @@ export const BodyModule = ({ selectedGender }: BodyModuleProps) => {
       { metric: "Health", score: 82 },
       { metric: "Style Suitability", score: 86 },
       { metric: "Color Match", score: 80 },
+    ]},
+    oral: { score: 72, details: [
+      { metric: "Teeth Alignment", score: 78 },
+      { metric: "Whiteness Level", score: 65 },
+      { metric: "Gum Health", score: 75 },
+      { metric: "Breath Quality", score: 70 },
     ]},
     beard: { score: 79, details: [
       { metric: "Coverage", score: 85 },
@@ -146,6 +153,16 @@ export const BodyModule = ({ selectedGender }: BodyModuleProps) => {
                 <li>• Protein treatment for strength</li>
                 <li>• Regular trimming schedule</li>
                 <li>• Style consultation for face shape</li>
+              </>
+            )}
+            {tabId === 'oral' && (
+              <>
+                <li>• Brush twice daily with fluoride toothpaste</li>
+                <li>• Daily flossing and mouthwash routine</li>
+                <li>• Professional whitening treatment</li>
+                <li>• Regular dental checkups every 6 months</li>
+                <li>• Tongue scraping for breath freshness</li>
+                <li>• Avoid foods that cause bad breath</li>
               </>
             )}
             {tabId === 'beard' && (
