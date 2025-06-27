@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Upload, Search, Sparkles, Palette, Eye, Shirt } from "lucide-react";
 
 export const FashionModule = () => {
-  const [mode, setMode] = useState<'select' | 'review' | 'results'>('results');
+  const [mode, setMode] = useState<'select' | 'review' | 'results' | 'scanner' | 'care-results'>('results');
 
   const styleAnalysis = [
     { category: "Color Harmony", score: 88, feedback: "Excellent color coordination" },
@@ -11,6 +11,22 @@ export const FashionModule = () => {
     { category: "Style Consistency", score: 92, feedback: "Cohesive personal style" },
     { category: "Occasion Appropriateness", score: 84, feedback: "Well-suited for the context" },
   ];
+
+  const fabricCareData = {
+    fabric: "Cotton Blend (60% Cotton, 40% Polyester)",
+    washTemp: "30°C / 86°F",
+    dryMethod: "Tumble dry low",
+    ironTemp: "Medium heat",
+    bleach: "Do not bleach",
+    dryClean: "Not required",
+    careInstructions: [
+      "Turn inside out before washing",
+      "Wash with similar colors",
+      "Remove promptly from dryer",
+      "Iron while slightly damp for best results",
+      "Store on hangers to prevent wrinkles"
+    ]
+  };
 
   if (mode === 'select') {
     return (
@@ -32,6 +48,25 @@ export const FashionModule = () => {
                 <div className="flex-1">
                   <h3 className="font-semibold text-gray-900">Outfit Review</h3>
                   <p className="text-sm text-gray-600">Get a critical score on your current outfit</p>
+                </div>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setMode('scanner')}
+              className="w-full bg-white border border-gray-200 rounded-2xl p-6 text-left hover:bg-gray-50 transition-all duration-300"
+            >
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-black rounded-xl flex items-center justify-center">
+                  <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M3 6h3m12 0h3m-9 6c.5 0 1-.5 1-1V7c0-.5-.5-1-1-1s-1 .5-1 1v4c0 .5.5 1 1 1z"/>
+                    <path d="M21 12H3"/>
+                    <path d="M12 3v2m0 14v2"/>
+                  </svg>
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-gray-900">Fabric Care Scanner</h3>
+                  <p className="text-sm text-gray-600">Scan clothing tags for care instructions</p>
                 </div>
               </div>
             </button>
@@ -61,6 +96,114 @@ export const FashionModule = () => {
             </button>
           </div>
         </div>
+      </div>
+    );
+  }
+
+  if (mode === 'scanner') {
+    return (
+      <div className="p-6 space-y-6">
+        <div className="text-center">
+          <h2 className="text-2xl font-semibold text-gray-900">Fabric Care Scanner</h2>
+        </div>
+
+        <div className="space-y-4">
+          <div className="bg-white border-2 border-dashed border-gray-300 rounded-2xl p-8 text-center">
+            <div className="w-16 h-16 bg-black rounded-2xl mx-auto mb-4 flex items-center justify-center">
+              <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M3 6h3m12 0h3m-9 6c.5 0 1-.5 1-1V7c0-.5-.5-1-1-1s-1 .5-1 1v4c0 .5.5 1 1 1z"/>
+                <path d="M21 12H3"/>
+                <path d="M12 3v2m0 14v2"/>
+              </svg>
+            </div>
+            <p className="text-gray-600 mb-4">Scan Clothing Tag</p>
+            <p className="text-sm text-gray-500 mb-6">Point your camera at the care label</p>
+            <button
+              onClick={() => setMode('care-results')}
+              className="bg-black text-white px-6 py-3 rounded-xl font-medium"
+            >
+              Start Scanning
+            </button>
+          </div>
+
+          <button
+            onClick={() => setMode('select')}
+            className="w-full text-gray-600 py-3 rounded-xl font-medium hover:bg-gray-100 transition-colors"
+          >
+            Back to Options
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (mode === 'care-results') {
+    return (
+      <div className="p-6 space-y-6">
+        <div className="text-center">
+          <h2 className="text-2xl font-semibold text-gray-900">Fabric Care Guide</h2>
+        </div>
+
+        {/* Fabric Information */}
+        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">Fabric Composition</h3>
+          <p className="text-gray-700 font-medium">{fabricCareData.fabric}</p>
+        </div>
+
+        {/* Care Instructions Grid */}
+        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Care Instructions</h3>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="text-center p-4 bg-gray-50 rounded-xl">
+              <div className="text-sm text-gray-600 mb-1">Wash Temperature</div>
+              <div className="text-lg font-bold text-black">{fabricCareData.washTemp}</div>
+            </div>
+            <div className="text-center p-4 bg-gray-50 rounded-xl">
+              <div className="text-sm text-gray-600 mb-1">Drying Method</div>
+              <div className="text-lg font-bold text-black">{fabricCareData.dryMethod}</div>
+            </div>
+            <div className="text-center p-4 bg-gray-50 rounded-xl">
+              <div className="text-sm text-gray-600 mb-1">Iron Temperature</div>
+              <div className="text-lg font-bold text-black">{fabricCareData.ironTemp}</div>
+            </div>
+            <div className="text-center p-4 bg-gray-50 rounded-xl">
+              <div className="text-sm text-gray-600 mb-1">Bleach</div>
+              <div className="text-lg font-bold text-black">{fabricCareData.bleach}</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Detailed Care Tips */}
+        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+          <div className="flex items-center space-x-2 mb-4">
+            <svg className="w-5 h-5 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M3 6h3m12 0h3m-9 6c.5 0 1-.5 1-1V7c0-.5-.5-1-1-1s-1 .5-1 1v4c0 .5.5 1 1 1z"/>
+              <path d="M21 12H3"/>
+              <path d="M12 3v2m0 14v2"/>
+            </svg>
+            <h3 className="text-lg font-semibold text-gray-900">Care Tips</h3>
+          </div>
+          <ul className="text-gray-600 text-sm space-y-2">
+            {fabricCareData.careInstructions.map((instruction, index) => (
+              <li key={index}>• {instruction}</li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Dry Cleaning Info */}
+        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">Professional Care</h3>
+          <p className="text-gray-600 text-sm">
+            <strong>Dry Cleaning:</strong> {fabricCareData.dryClean}
+          </p>
+        </div>
+
+        <button
+          onClick={() => setMode('select')}
+          className="w-full bg-gray-100 text-gray-700 py-3 rounded-xl font-medium hover:bg-gray-200 transition-colors"
+        >
+          Scan Another Item
+        </button>
       </div>
     );
   }
