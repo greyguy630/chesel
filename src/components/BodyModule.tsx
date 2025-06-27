@@ -16,10 +16,15 @@ export const BodyModule = ({ selectedGender }: BodyModuleProps) => {
     { id: 'hair', label: 'Hair', icon: Scissors },
     { id: 'oral', label: 'Oral', icon: () => (
       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M12 2C8.69 2 6 4.69 6 8v1c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V8c0-3.31-2.69-6-6-6z"/>
-        <path d="M8 11v2c0 2.21 1.79 4 4 4s4-1.79 4-4v-2"/>
-        <path d="M10 15h4"/>
-        <path d="M11 17h2"/>
+        <path d="M8 12c0-1.1.9-2 2-2h4c1.1 0 2 .9 2 2v4c0 1.1-.9 2-2 2h-4c-1.1 0-2-.9-2-2v-4z"/>
+        <path d="M10 8c0-1.1.9-2 2-2s2 .9 2 2"/>
+        <path d="M14 8c0-1.1.9-2 2-2s2 .9 2 2"/>
+        <path d="M6 8c0-1.1.9-2 2-2s2 .9 2 2"/>
+        <circle cx="8" cy="14" r="1"/>
+        <circle cx="10" cy="16" r="1"/>
+        <circle cx="12" cy="14" r="1"/>
+        <circle cx="14" cy="16" r="1"/>
+        <circle cx="16" cy="14" r="1"/>
       </svg>
     )},
     ...(selectedGender === 'male' ? [{ id: 'beard', label: 'Beard', icon: User }] : []),

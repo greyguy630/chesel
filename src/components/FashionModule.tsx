@@ -1,9 +1,8 @@
-
 import { useState } from "react";
 import { Upload, Search, Sparkles, Palette, Eye, Shirt } from "lucide-react";
 
 export const FashionModule = () => {
-  const [mode, setMode] = useState<'select' | 'review' | 'results' | 'scanner' | 'care-results'>('results');
+  const [mode, setMode] = useState<'select' | 'review' | 'results' | 'scanner' | 'care-results'>('select');
 
   const styleAnalysis = [
     { category: "Color Harmony", score: 88, feedback: "Excellent color coordination" },
@@ -59,9 +58,12 @@ export const FashionModule = () => {
               <div className="flex items-center space-x-4">
                 <div className="w-12 h-12 bg-black rounded-xl flex items-center justify-center">
                   <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M3 6h3m12 0h3m-9 6c.5 0 1-.5 1-1V7c0-.5-.5-1-1-1s-1 .5-1 1v4c0 .5.5 1 1 1z"/>
-                    <path d="M21 12H3"/>
-                    <path d="M12 3v2m0 14v2"/>
+                    <path d="M3 6h18M3 12h18M3 18h18"/>
+                    <circle cx="6" cy="6" r="1"/>
+                    <circle cx="6" cy="12" r="1"/>
+                    <circle cx="6" cy="18" r="1"/>
+                    <path d="M12 6v12"/>
+                    <path d="M18 6v12"/>
                   </svg>
                 </div>
                 <div className="flex-1">
@@ -111,9 +113,12 @@ export const FashionModule = () => {
           <div className="bg-white border-2 border-dashed border-gray-300 rounded-2xl p-8 text-center">
             <div className="w-16 h-16 bg-black rounded-2xl mx-auto mb-4 flex items-center justify-center">
               <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M3 6h3m12 0h3m-9 6c.5 0 1-.5 1-1V7c0-.5-.5-1-1-1s-1 .5-1 1v4c0 .5.5 1 1 1z"/>
-                <path d="M21 12H3"/>
-                <path d="M12 3v2m0 14v2"/>
+                <path d="M3 6h18M3 12h18M3 18h18"/>
+                <circle cx="6" cy="6" r="1"/>
+                <circle cx="6" cy="12" r="1"/>
+                <circle cx="6" cy="18" r="1"/>
+                <path d="M12 6v12"/>
+                <path d="M18 6v12"/>
               </svg>
             </div>
             <p className="text-gray-600 mb-4">Scan Clothing Tag</p>
