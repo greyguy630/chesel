@@ -1,18 +1,22 @@
 
 import { useState } from "react";
-import { Send, BarChart3, MessageCircle } from "lucide-react";
+import { Send, BarChart3, MessageCircle, Upload, Scan } from "lucide-react";
 
 export const PresenceModule = () => {
   const [messages, setMessages] = useState<Array<{ text: string; sender: 'user' | 'ai' }>>([]);
   const [inputText, setInputText] = useState('');
   const [showAnalysis, setShowAnalysis] = useState(false);
+  const [situationMode, setSituationMode] = useState(false);
+  const [showScanner, setShowScanner] = useState(true);
 
   const handleSend = () => {
     if (inputText.trim()) {
       setMessages([...messages, { text: inputText, sender: 'user' }]);
-      // Simulate AI response
       setTimeout(() => {
-        setMessages(prev => [...prev, { text: "I understand your concern. Let me help you develop a more commanding presence.", sender: 'ai' }]);
+        setMessages(prev => [...prev, { 
+          text: "I understand your situation. Here's how to handle it with confidence and authority...", 
+          sender: 'ai' 
+        }]);
       }, 1000);
       setInputText('');
     }
@@ -20,13 +24,31 @@ export const PresenceModule = () => {
 
   const handleAnalyze = () => {
     setShowAnalysis(true);
+    setShowScanner(false);
+  };
+
+  const handleSituationUpload = () => {
+    setSituationMode(true);
+    setShowScanner(false);
   };
 
   if (showAnalysis) {
     return (
       <div className="p-6 space-y-6">
-        <div className="text-center">
+        <div className="flex items-center justify-between">
           <h2 className="text-2xl font-semibold text-gray-900">Presence Analysis</h2>
+          {!showScanner && (
+            <button
+              onClick={() => {
+                setShowAnalysis(false);
+                setShowScanner(true);
+                setMessages([]);
+              }}
+              className="p-3 bg-black text-white rounded-xl hover:bg-gray-800 transition-colors"
+            >
+              <Scan className="w-5 h-5" />
+            </button>
+          )}
         </div>
 
         <div className="bg-white border border-gray-200 rounded-2xl p-6 text-center shadow-sm">
@@ -38,10 +60,10 @@ export const PresenceModule = () => {
         </div>
 
         <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">Summary</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">Situation Strategy</h3>
           <p className="text-gray-600 text-sm leading-relaxed mb-4">
-            Your communication style shows confidence but could benefit from more assertive language patterns. 
-            Consider using more definitive statements and reducing hedging language.
+            Based on your uploaded situation, here's how to dominate: Use confident body language, 
+            maintain eye contact, and speak with decisive authority. Your approach should be direct but respectful.
           </p>
           <div className="space-y-2">
             <div className="flex justify-between items-center">
@@ -53,18 +75,68 @@ export const PresenceModule = () => {
               <span className="text-sm font-medium text-gray-900">65%</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Clarity</span>
+              <span className="text-sm text-gray-600">Persuasion</span>
               <span className="text-sm font-medium text-gray-900">82%</span>
             </div>
           </div>
         </div>
 
+        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">Winning Tactics</h3>
+          <ul className="text-gray-600 text-sm space-y-2">
+            <li>• Enter the room with purpose and strong posture</li>
+            <li>• Use strategic pauses to command attention</li>
+            <li>• Mirror the other person's energy, then lead</li>
+            <li>• End conversations on your terms</li>
+          </ul>
+        </div>
+
         <button
-          onClick={() => setShowAnalysis(false)}
+          onClick={() => {
+            setShowAnalysis(false);
+            setSituationMode(false);
+            setMessages([]);
+          }}
           className="w-full bg-black text-white py-3 rounded-2xl font-medium"
         >
-          Back to Chat
+          Analyze New Situation
         </button>
+      </div>
+    );
+  }
+
+  if (situationMode) {
+    return (
+      <div className="p-6 space-y-6">
+        <div className="text-center">
+          <h2 className="text-2xl font-semibold text-gray-900">Upload Situation</h2>
+          <p className="text-gray-600">Describe or upload details about the situation you want to win</p>
+        </div>
+
+        <div className="bg-white border-2 border-dashed border-gray-300 rounded-2xl p-8 text-center">
+          <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+          <p className="text-gray-600 mb-4">Upload image or document</p>
+          <button
+            onClick={handleAnalyze}
+            className="bg-black text-white px-6 py-3 rounded-xl font-medium"
+          >
+            Upload Situation
+          </button>
+        </div>
+
+        <div className="bg-white border border-gray-200 rounded-2xl p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">Describe the Situation</h3>
+          <textarea
+            placeholder="e.g., Job interview, difficult negotiation, social gathering..."
+            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent h-32 resize-none"
+          />
+          <button
+            onClick={handleAnalyze}
+            className="w-full mt-4 bg-black text-white py-3 rounded-xl font-medium"
+          >
+            Get Winning Strategy
+          </button>
+        </div>
       </div>
     );
   }
@@ -72,7 +144,17 @@ export const PresenceModule = () => {
   return (
     <div className="flex flex-col h-full">
       <div className="p-6 border-b border-gray-200">
-        <h2 className="text-2xl font-semibold text-gray-900 text-center">Presence Coach</h2>
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-semibold text-gray-900">Presence Coach</h2>
+          {showScanner && (
+            <button
+              onClick={handleSituationUpload}
+              className="p-3 bg-black text-white rounded-xl hover:bg-gray-800 transition-colors"
+            >
+              <Scan className="w-5 h-5" />
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Chat Messages */}
@@ -80,7 +162,13 @@ export const PresenceModule = () => {
         {messages.length === 0 ? (
           <div className="text-center text-gray-500 mt-12">
             <MessageCircle className="w-12 h-12 mx-auto mb-4 text-gray-300" />
-            <p>Start a conversation to analyze your presence</p>
+            <p>Describe a situation you want to dominate</p>
+            <button
+              onClick={handleSituationUpload}
+              className="mt-4 bg-black text-white px-6 py-3 rounded-xl font-medium"
+            >
+              Upload Situation
+            </button>
           </div>
         ) : (
           messages.map((message, index) => (
@@ -110,7 +198,7 @@ export const PresenceModule = () => {
             className="w-full bg-black text-white py-3 rounded-2xl font-medium flex items-center justify-center space-x-2"
           >
             <BarChart3 className="w-4 h-4" />
-            <span>Analyze My Presence</span>
+            <span>Get Winning Strategy</span>
           </button>
         )}
         
@@ -119,7 +207,7 @@ export const PresenceModule = () => {
             type="text"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
-            placeholder="Ask your question..."
+            placeholder="Describe your situation..."
             className="flex-1 px-4 py-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-black focus:border-transparent"
             onKeyPress={(e) => e.key === 'Enter' && handleSend()}
           />

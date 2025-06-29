@@ -1,14 +1,27 @@
 import { useState } from "react";
-import { Upload, Search, Sparkles, Palette, Eye, Shirt } from "lucide-react";
+import { Upload, Search, Sparkles, Palette, Eye, Shirt, Scan } from "lucide-react";
 
 export const FashionModule = () => {
-  const [mode, setMode] = useState<'select' | 'review' | 'results' | 'scanner' | 'care-results'>('select');
+  const [mode, setMode] = useState<'select' | 'review' | 'results' | 'scanner' | 'care-results' | 'fragrance'>('select');
+  const [showScanner, setShowScanner] = useState(true);
 
   const styleAnalysis = [
     { category: "Color Harmony", score: 88, feedback: "Excellent color coordination" },
     { category: "Fit Assessment", score: 76, feedback: "Good fit, minor adjustments needed" },
     { category: "Style Consistency", score: 92, feedback: "Cohesive personal style" },
     { category: "Occasion Appropriateness", score: 84, feedback: "Well-suited for the context" },
+  ];
+
+  const thriftStoreItems = [
+    { name: "Vintage Leather Jacket", price: "$45", original: "$120", isThrift: true },
+    { name: "Classic White Shirt", price: "$15", original: "$60", isThrift: true },
+    { name: "Designer Jeans", price: "$89", original: "$200", isThrift: false },
+  ];
+
+  const fragranceRecommendations = [
+    { name: "Tom Ford Oud Wood", type: "Cologne", price: "$350", occasion: "Formal Evening", link: "#" },
+    { name: "Creed Aventus", type: "Eau de Parfum", price: "$435", occasion: "Business Meeting", link: "#" },
+    { name: "Dior Sauvage", type: "Eau de Toilette", price: "$98", occasion: "Casual Day", link: "#" },
   ];
 
   const fabricCareData = {
@@ -31,8 +44,16 @@ export const FashionModule = () => {
     return (
       <div className="p-6 flex flex-col items-center justify-center min-h-full">
         <div className="w-full max-w-md space-y-6">
-          <div className="text-center space-y-2">
+          <div className="flex items-center justify-between w-full">
             <h2 className="text-2xl font-semibold text-gray-900">Fashion Intelligence</h2>
+            {showScanner && (
+              <button
+                onClick={() => setMode('scanner')}
+                className="p-3 bg-black text-white rounded-xl hover:bg-gray-800 transition-colors"
+              >
+                <Scan className="w-5 h-5" />
+              </button>
+            )}
           </div>
 
           <div className="space-y-4">
@@ -52,23 +73,20 @@ export const FashionModule = () => {
             </button>
 
             <button
-              onClick={() => setMode('scanner')}
+              onClick={() => setMode('fragrance')}
               className="w-full bg-white border border-gray-200 rounded-2xl p-6 text-left hover:bg-gray-50 transition-all duration-300"
             >
               <div className="flex items-center space-x-4">
                 <div className="w-12 h-12 bg-black rounded-xl flex items-center justify-center">
                   <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M3 6h18M3 12h18M3 18h18"/>
-                    <circle cx="6" cy="6" r="1"/>
-                    <circle cx="6" cy="12" r="1"/>
-                    <circle cx="6" cy="18" r="1"/>
-                    <path d="M12 6v12"/>
-                    <path d="M18 6v12"/>
+                    <path d="M7 17v5h10v-5"/>
+                    <path d="M12 2l4 4-4 4-4-4z"/>
+                    <path d="M12 10v7"/>
                   </svg>
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-gray-900">Fabric Care Scanner</h3>
-                  <p className="text-sm text-gray-600">Scan clothing tags for care instructions</p>
+                  <h3 className="font-semibold text-gray-900">Fragrance</h3>
+                  <p className="text-sm text-gray-600">Get perfume recommendations for occasions</p>
                 </div>
               </div>
             </button>
@@ -80,7 +98,7 @@ export const FashionModule = () => {
                 </div>
                 <div className="flex-1">
                   <h3 className="font-semibold text-gray-900">Outfit Finder</h3>
-                  <p className="text-sm text-gray-600">Identify items in a photo</p>
+                  <p className="text-sm text-gray-600">Find similar items including thrift options</p>
                 </div>
               </div>
             </button>
@@ -98,6 +116,57 @@ export const FashionModule = () => {
             </button>
           </div>
         </div>
+      </div>
+    );
+  }
+
+  if (mode === 'fragrance') {
+    return (
+      <div className="p-6 space-y-6">
+        <div className="text-center">
+          <h2 className="text-2xl font-semibold text-gray-900">Fragrance Recommendations</h2>
+        </div>
+
+        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">Enter Occasion</h3>
+          <input
+            type="text"
+            placeholder="e.g., Business Meeting, Date Night, Casual Day..."
+            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent mb-4"
+          />
+          <button className="w-full bg-black text-white py-3 rounded-xl font-medium">
+            Get Recommendations
+          </button>
+        </div>
+
+        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Recommended Fragrances</h3>
+          <div className="space-y-4">
+            {fragranceRecommendations.map((fragrance, index) => (
+              <div key={index} className="border border-gray-200 rounded-xl p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <div>
+                    <h4 className="font-medium text-gray-900">{fragrance.name}</h4>
+                    <p className="text-sm text-gray-600">{fragrance.type} • {fragrance.occasion}</p>
+                  </div>
+                  <div className="text-right">
+                    <div className="font-bold text-black">{fragrance.price}</div>
+                    <a href={fragrance.link} className="text-sm text-blue-600 hover:underline">
+                      View Product
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <button
+          onClick={() => setMode('select')}
+          className="w-full bg-gray-100 text-gray-700 py-3 rounded-xl font-medium hover:bg-gray-200 transition-colors"
+        >
+          Back to Options
+        </button>
       </div>
     );
   }
@@ -252,20 +321,50 @@ export const FashionModule = () => {
   // Results view with enhanced style analysis
   return (
     <div className="p-6 space-y-6">
-      <div className="text-center">
+      <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold text-gray-900">Style Analysis</h2>
+        {!showScanner && (
+          <button
+            onClick={() => setMode('scanner')}
+            className="p-3 bg-black text-white rounded-xl hover:bg-gray-800 transition-colors"
+          >
+            <Scan className="w-5 h-5" />
+          </button>
+        )}
       </div>
 
-      {/* Overall Score */}
+      {/* Overall Score as Meter */}
       <div className="bg-white border border-gray-200 rounded-2xl p-6 text-center shadow-sm">
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">Overall Style Score</h3>
-        <div className="text-4xl font-bold text-black mb-2">82</div>
-        <div className="w-full bg-gray-200 rounded-full h-2">
-          <div className="bg-black h-2 rounded-full" style={{ width: '82%' }}></div>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Overall Style Score</h3>
+        <div className="relative w-48 h-24 mx-auto mb-4">
+          <svg className="w-48 h-24" viewBox="0 0 200 100">
+            <path
+              d="M 20 80 A 80 80 0 0 1 180 80"
+              stroke="#e5e7eb"
+              strokeWidth="12"
+              fill="none"
+            />
+            <path
+              d="M 20 80 A 80 80 0 0 1 180 80"
+              stroke="#000000"
+              strokeWidth="12"
+              fill="none"
+              strokeDasharray="251.2"
+              strokeDashoffset={251.2 - (251.2 * 82) / 100}
+              strokeLinecap="round"
+              className="transition-all duration-1000 ease-out"
+            />
+          </svg>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-center mt-4">
+              <div className="text-4xl font-bold text-black">82</div>
+              <div className="text-sm text-gray-500">Excellent</div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Detailed Style Analysis */}
+      {/* Detailed Style Analysis - Same as before */}
       <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
         <div className="flex items-center space-x-2 mb-4">
           <Palette className="w-5 h-5 text-gray-700" />
@@ -285,6 +384,32 @@ export const FashionModule = () => {
                 ></div>
               </div>
               <p className="text-xs text-gray-600">{item.feedback}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Similar Items with Thrift Labels */}
+      <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Similar Items</h3>
+        <div className="space-y-3">
+          {thriftStoreItems.map((item, index) => (
+            <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+              <div className="flex items-center space-x-3">
+                {item.isThrift && (
+                  <div className="w-6 h-6 bg-green-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                    T
+                  </div>
+                )}
+                <div>
+                  <div className="font-medium text-gray-900">{item.name}</div>
+                  {item.isThrift && <div className="text-xs text-green-600">Thrift Store Find</div>}
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="font-bold text-green-600">{item.price}</div>
+                {item.isThrift && <div className="text-xs text-gray-500 line-through">{item.original}</div>}
+              </div>
             </div>
           ))}
         </div>

@@ -4,21 +4,34 @@ import { MobileDrawer } from "@/components/MobileDrawer";
 import { GenderSelection } from "@/components/GenderSelection";
 import { HeightWeightSelection } from "@/components/HeightWeightSelection";
 import { DailyProtocol } from "@/components/DailyProtocol";
+import { DailyTasks } from "@/components/DailyTasks";
 import { FitnessModule } from "@/components/FitnessModule";
 import { FashionModule } from "@/components/FashionModule";
 import { BodyModule } from "@/components/BodyModule";
 import { PresenceModule } from "@/components/PresenceModule";
-import { Menu, Home as HomeIcon, Dumbbell, Shirt, Scan, Brain, Search } from "lucide-react";
+import { CategorySidebar } from "@/components/CategorySidebar";
+import { Menu, Home as HomeIcon, Dumbbell, Shirt, Scan, Brain, Search, Grid3X3 } from "lucide-react";
 
 const Index = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isCategorySidebarOpen, setIsCategorySidebarOpen] = useState(false);
   const [selectedGender, setSelectedGender] = useState<string | null>(null);
   const [heightWeightData, setHeightWeightData] = useState<{height: string; weight: string; unit: string} | null>(null);
   const [activeModule, setActiveModule] = useState("home");
+  const [activeTab, setActiveTab] = useState("");
   const [startX, setStartX] = useState<number | null>(null);
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
+  };
+
+  const toggleCategorySidebar = () => {
+    setIsCategorySidebarOpen(!isCategorySidebarOpen);
+  };
+
+  const handleCategorySelect = (tab: string, module: string) => {
+    setActiveModule(module);
+    setActiveTab(tab);
   };
 
   const bottomNavItems = [
@@ -58,7 +71,12 @@ const Index = () => {
   const renderActiveModule = () => {
     switch (activeModule) {
       case "home":
-        return <DailyProtocol />;
+        return (
+          <div className="p-6 space-y-6">
+            <DailyTasks />
+            <DailyProtocol />
+          </div>
+        );
       case "fitness":
         return <FitnessModule />;
       case "fashion":
@@ -68,7 +86,12 @@ const Index = () => {
       case "presence":
         return <PresenceModule />;
       default:
-        return <DailyProtocol />;
+        return (
+          <div className="p-6 space-y-6">
+            <DailyTasks />
+            <DailyProtocol />
+          </div>
+        );
     }
   };
 
@@ -104,13 +127,12 @@ const Index = () => {
             Chesel
           </h1>
           
-          {activeModule !== "home" ? (
-            <button className="p-3 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-all duration-200">
-              <Search className="w-5 h-5 text-black" />
-            </button>
-          ) : (
-            <div className="w-11" />
-          )}
+          <button 
+            onClick={toggleCategorySidebar}
+            className="p-3 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-all duration-200"
+          >
+            <Grid3X3 className="w-5 h-5 text-black" />
+          </button>
         </div>
       </header>
 
@@ -153,6 +175,13 @@ const Index = () => {
       <MobileDrawer 
         isOpen={isDrawerOpen} 
         onClose={() => setIsDrawerOpen(false)} 
+      />
+
+      {/* Category Sidebar */}
+      <CategorySidebar
+        isOpen={isCategorySidebarOpen}
+        onClose={() => setIsCategorySidebarOpen(false)}
+        onCategorySelect={handleCategorySelect}
       />
     </div>
   );
