@@ -1,8 +1,6 @@
-
 import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { Switch } from "@/components/ui/switch";
-import { RotatingDiscSelector } from "./RotatingDiscSelector";
 
 interface HeightWeightSelectionProps {
   onComplete: (data: { height: string; weight: string; unit: string }) => void;
@@ -11,38 +9,78 @@ interface HeightWeightSelectionProps {
 
 export const HeightWeightSelection = ({ onComplete, onBack }: HeightWeightSelectionProps) => {
   const [isMetric, setIsMetric] = useState(false);
-  const [selectedHeight, setSelectedHeight] = useState<string>("");
-  const [selectedWeight, setSelectedWeight] = useState<string>("");
+  const [selectedHeightFeet, setSelectedHeightFeet] = useState(5);
+  const [selectedHeightInches, setSelectedHeightInches] = useState(6);
+  const [selectedHeightCm, setSelectedHeightCm] = useState(170);
+  const [selectedWeight, setSelectedWeight] = useState(isMetric ? 70 : 120);
 
   // Generate weight values
-  const imperialWeights = Array.from({ length: 583 }, (_, i) => `${i + 118}`);
-  const metricWeights = Array.from({ length: 91 }, (_, i) => `${i + 30}`);
+  const imperialWeights = Array.from({ length: 200 }, (_, i) => i + 80);
+  const metricWeights = Array.from({ length: 150 }, (_, i) => i + 30);
 
   // Generate height values
-  const imperialHeights = [];
-  for (let ft = 3; ft <= 8; ft++) {
-    for (let inch = 0; inch < 12; inch++) {
-      if (ft === 8 && inch > 0) break; // Stop at 8'0"
-      imperialHeights.push(`${ft}'${inch}"`);
-    }
-  }
-  
-  const metricHeights = Array.from({ length: 101 }, (_, i) => `${i + 120}`);
+  const feetOptions = [3, 4, 5, 6, 7, 8];
+  const inchesOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+  const cmOptions = Array.from({ length: 121 }, (_, i) => i + 120);
 
   const handleContinue = () => {
-    if (selectedHeight && selectedWeight) {
-      onComplete({
-        height: selectedHeight,
-        weight: selectedWeight,
-        unit: isMetric ? 'metric' : 'imperial'
-      });
+    let heightString = "";
+    if (isMetric) {
+      heightString = `${selectedHeightCm}cm`;
+    } else {
+      heightString = `${selectedHeightFeet}'${selectedHeightInches}"`;
     }
+
+    onComplete({
+      height: heightString,
+      weight: `${selectedWeight}${isMetric ? 'kg' : 'lb'}`,
+      unit: isMetric ? 'metric' : 'imperial'
+    });
   };
 
-  const currentHeights = isMetric ? metricHeights : imperialHeights;
-  const currentWeights = isMetric ? metricWeights : imperialWeights;
-  const heightUnit = isMetric ? 'Height (cm)' : 'Height';
-  const weightUnit = isMetric ? 'Weight (kg)' : 'Weight (lbs)';
+  const ScrollSelector = ({ 
+    values, 
+    selectedValue, 
+    onValueChange, 
+    unit 
+  }: { 
+    values: number[], 
+    selectedValue: number, 
+    onValueChange: (value: number) => void,
+    unit: string 
+  }) => {
+    return (
+      <div className="flex flex-col items-center">
+        <div className="relative h-48 overflow-hidden">
+          <div className="absolute inset-x-0 top-1/2 h-12 -mt-6 bg-gray-100 rounded-lg border-2 border-gray-200 z-10 pointer-events-none" />
+          <div className="flex flex-col items-center py-20">
+            {values.map((value, index) => {
+              const isSelected = value === selectedValue;
+              const distance = Math.abs(values.indexOf(selectedValue) - index);
+              const opacity = Math.max(0.3, 1 - distance * 0.2);
+              const scale = isSelected ? 1 : Math.max(0.7, 1 - distance * 0.1);
+              
+              return (
+                <button
+                  key={value}
+                  onClick={() => onValueChange(value)}
+                  className={`py-2 px-4 transition-all duration-200 ${
+                    isSelected ? 'text-black font-semibold text-lg' : 'text-gray-500'
+                  }`}
+                  style={{
+                    opacity,
+                    transform: `scale(${scale})`,
+                  }}
+                >
+                  {value} {unit}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
@@ -70,7 +108,7 @@ export const HeightWeightSelection = ({ onComplete, onBack }: HeightWeightSelect
       <div className="flex-1 px-6 py-8 flex flex-col">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Height & Weight
+            Height & weight
           </h1>
           <p className="text-gray-600">
             This will be used to calibrate your custom plan.
@@ -84,7 +122,14 @@ export const HeightWeightSelection = ({ onComplete, onBack }: HeightWeightSelect
           </span>
           <Switch
             checked={isMetric}
-            onCheckedChange={setIsMetric}
+            onCheckedChange={(checked) => {
+              setIsMetric(checked);
+              if (checked) {
+                setSelectedWeight(70);
+              } else {
+                setSelectedWeight(120);
+              }
+            }}
             className="data-[state=checked]:bg-gray-400 data-[state=unchecked]:bg-gray-300"
           />
           <span className={`text-lg font-medium ml-4 ${isMetric ? 'text-gray-900' : 'text-gray-400'}`}>
@@ -92,21 +137,50 @@ export const HeightWeightSelection = ({ onComplete, onBack }: HeightWeightSelect
           </span>
         </div>
 
-        {/* Rotating Disc Selectors */}
+        {/* Height and Weight Selectors */}
         <div className="flex-1 grid grid-cols-2 gap-8">
-          <RotatingDiscSelector
-            values={currentWeights}
-            unit={weightUnit}
-            onValueChange={setSelectedWeight}
-            initialValue={selectedWeight}
-          />
-          
-          <RotatingDiscSelector
-            values={currentHeights}
-            unit={heightUnit}
-            onValueChange={setSelectedHeight}
-            initialValue={selectedHeight}
-          />
+          {/* Height Section */}
+          <div className="flex flex-col">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Height</h3>
+            {isMetric ? (
+              <ScrollSelector
+                values={cmOptions}
+                selectedValue={selectedHeightCm}
+                onValueChange={setSelectedHeightCm}
+                unit="cm"
+              />
+            ) : (
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <ScrollSelector
+                    values={feetOptions}
+                    selectedValue={selectedHeightFeet}
+                    onValueChange={setSelectedHeightFeet}
+                    unit="ft"
+                  />
+                </div>
+                <div>
+                  <ScrollSelector
+                    values={inchesOptions}
+                    selectedValue={selectedHeightInches}
+                    onValueChange={setSelectedHeightInches}
+                    unit="in"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Weight Section */}
+          <div className="flex flex-col">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Weight</h3>
+            <ScrollSelector
+              values={isMetric ? metricWeights : imperialWeights}
+              selectedValue={selectedWeight}
+              onValueChange={setSelectedWeight}
+              unit={isMetric ? "kg" : "lb"}
+            />
+          </div>
         </div>
       </div>
 
@@ -114,12 +188,7 @@ export const HeightWeightSelection = ({ onComplete, onBack }: HeightWeightSelect
       <div className="p-6 pb-8">
         <button
           onClick={handleContinue}
-          disabled={!selectedHeight || !selectedWeight}
-          className={`w-full py-4 px-6 rounded-full text-lg font-medium transition-all duration-200 ${
-            selectedHeight && selectedWeight
-              ? 'bg-black text-white hover:bg-gray-800'
-              : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-          }`}
+          className="w-full py-4 px-6 rounded-full text-lg font-medium bg-black text-white hover:bg-gray-800 transition-all duration-200"
         >
           Continue
         </button>

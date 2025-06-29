@@ -1,6 +1,5 @@
-
 import { useState } from "react";
-import { Search, Utensils, Power, Check, Activity, Heart, Brain, Dumbbell, Shirt } from "lucide-react";
+import { Search, Utensils, Power, Check, Activity, Heart, Brain, Dumbbell } from "lucide-react";
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
@@ -23,10 +22,10 @@ export const DailyProtocol = () => {
   ];
 
   const shortcuts = [
-    { icon: Activity, label: "Quick Workout", color: "bg-blue-500" },
-    { icon: Heart, label: "Meditation", color: "bg-red-500" },
-    { icon: Brain, label: "Learning", color: "bg-purple-500" },
-    { icon: Utensils, label: "Meal Prep", color: "bg-green-500" },
+    { icon: Activity, label: "Quick Workout", color: "bg-black" },
+    { icon: Heart, label: "Meditation", color: "bg-black" },
+    { icon: Brain, label: "Learning", color: "bg-black" },
+    { icon: Utensils, label: "Meal Prep", color: "bg-black" },
   ];
 
   const quitOptions = [
@@ -102,6 +101,53 @@ export const DailyProtocol = () => {
         </div>
       </div>
 
+      {/* Daily Progress - Checkbox Style */}
+      <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Daily Progress</h3>
+        <div className="space-y-4">
+          {dailyTasks.map((item, index) => (
+            <div key={index} className="flex items-start space-x-4 p-4 bg-gray-50 rounded-xl">
+              <button
+                onClick={() => toggleTaskCompletion(index)}
+                className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
+                  item.completed 
+                    ? 'bg-black border-black text-white' 
+                    : 'border-gray-300 hover:border-gray-400'
+                }`}
+              >
+                {item.completed && <Check className="w-4 h-4" />}
+              </button>
+              <div className="flex-1">
+                <h4 className={`font-medium ${item.completed ? 'text-gray-500 line-through' : 'text-gray-900'}`}>
+                  {item.task}
+                </h4>
+                <p className={`text-sm ${item.completed ? 'text-gray-400 line-through' : 'text-gray-600'}`}>
+                  {item.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Quick Actions/Shortcuts */}
+      <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+        <div className="grid grid-cols-2 gap-4">
+          {shortcuts.map((shortcut, index) => (
+            <button
+              key={index}
+              className="flex items-center space-x-3 p-4 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors"
+            >
+              <div className={`p-2 ${shortcut.color} text-white rounded-lg`}>
+                <shortcut.icon className="w-5 h-5" />
+              </div>
+              <span className="font-medium text-gray-900">{shortcut.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Overall Score Section */}
       <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
         <div className="flex items-center justify-between mb-6">
@@ -138,53 +184,6 @@ export const DailyProtocol = () => {
               </RadarChart>
             </ResponsiveContainer>
           </ChartContainer>
-        </div>
-      </div>
-
-      {/* Quick Actions/Shortcuts */}
-      <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
-        <div className="grid grid-cols-2 gap-4">
-          {shortcuts.map((shortcut, index) => (
-            <button
-              key={index}
-              className="flex items-center space-x-3 p-4 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors"
-            >
-              <div className={`p-2 ${shortcut.color} text-white rounded-lg`}>
-                <shortcut.icon className="w-5 h-5" />
-              </div>
-              <span className="font-medium text-gray-900">{shortcut.label}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Daily Progress - Checkbox Style */}
-      <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Daily Progress</h3>
-        <div className="space-y-4">
-          {dailyTasks.map((item, index) => (
-            <div key={index} className="flex items-start space-x-4 p-4 bg-gray-50 rounded-xl">
-              <button
-                onClick={() => toggleTaskCompletion(index)}
-                className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
-                  item.completed 
-                    ? 'bg-black border-black text-white' 
-                    : 'border-gray-300 hover:border-gray-400'
-                }`}
-              >
-                {item.completed && <Check className="w-4 h-4" />}
-              </button>
-              <div className="flex-1">
-                <h4 className={`font-medium ${item.completed ? 'text-gray-500 line-through' : 'text-gray-900'}`}>
-                  {item.task}
-                </h4>
-                <p className={`text-sm ${item.completed ? 'text-gray-400 line-through' : 'text-gray-600'}`}>
-                  {item.description}
-                </p>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
 
