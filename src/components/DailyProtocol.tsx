@@ -1,30 +1,15 @@
 
 import { useState } from "react";
-import { Search, Utensils, Target, Dumbbell, Moon, CheckCircle, Plus, Power, Check } from "lucide-react";
+import { Search, Utensils, Power, Check } from "lucide-react";
 
 export const DailyProtocol = () => {
   const [scannedFood, setScannedFood] = useState<string | null>(null);
   const [showQuitModal, setShowQuitModal] = useState(false);
-
-  const quickActions = [
-    { icon: Target, label: "Set Goal", color: "bg-black" },
-    { icon: Dumbbell, label: "Quick Workout", color: "bg-black" },
-    { icon: Utensils, label: "Log Meal", color: "bg-black" },
-    { icon: Moon, label: "Sleep Tracker", color: "bg-black" },
-  ];
-
-  const dailyProgress = [
+  const [dailyTasks, setDailyTasks] = useState([
     { task: "Morning Hydration", description: "Drink 500ml of water upon waking", completed: false },
-    { task: "Skincare Routine", description: "Complete morning skincare regimen", completed: true },
+    { task: "Skincare Routine", description: "Complete morning skincare regimen", completed: false },
     { task: "Workout Session", description: "30-45 minutes of physical activity", completed: false },
-  ];
-
-  const shortcuts = [
-    { name: "Gym Routine", icon: Dumbbell, color: "bg-black" },
-    { name: "Meal Plan", icon: Utensils, color: "bg-black" },
-    { name: "Sleep Schedule", icon: Moon, color: "bg-black" },
-    { name: "Goals", icon: Target, color: "bg-black" },
-  ];
+  ]);
 
   const quitOptions = [
     "Smoking",
@@ -38,14 +23,14 @@ export const DailyProtocol = () => {
   ];
 
   const handleFoodScan = () => {
-    // Simulate food scanning
     setScannedFood("Apple - 95 calories");
     setTimeout(() => setScannedFood(null), 3000);
   };
 
   const toggleTaskCompletion = (index: number) => {
-    // This would normally update state, but for demo purposes we'll just log
-    console.log(`Toggling task ${index}`);
+    setDailyTasks(prev => prev.map((task, i) => 
+      i === index ? { ...task, completed: !task.completed } : task
+    ));
   };
 
   return (
@@ -87,24 +72,11 @@ export const DailyProtocol = () => {
         </div>
       </div>
 
-      {/* Quick Actions */}
-      <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
-        <div className="grid grid-cols-2 gap-3">
-          {quickActions.map((action, index) => (
-            <button key={index} className={`${action.color} text-white p-4 rounded-xl flex items-center space-x-3 hover:opacity-90 transition-opacity`}>
-              <action.icon className="w-5 h-5" />
-              <span className="font-medium">{action.label}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-
       {/* Daily Progress - Checkbox Style */}
       <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Daily Progress</h3>
         <div className="space-y-4">
-          {dailyProgress.map((item, index) => (
+          {dailyTasks.map((item, index) => (
             <div key={index} className="flex items-start space-x-4 p-4 bg-gray-50 rounded-xl">
               <button
                 onClick={() => toggleTaskCompletion(index)}
@@ -120,26 +92,11 @@ export const DailyProtocol = () => {
                 <h4 className={`font-medium ${item.completed ? 'text-gray-500 line-through' : 'text-gray-900'}`}>
                   {item.task}
                 </h4>
-                <p className={`text-sm ${item.completed ? 'text-gray-400' : 'text-gray-600'}`}>
+                <p className={`text-sm ${item.completed ? 'text-gray-400 line-through' : 'text-gray-600'}`}>
                   {item.description}
                 </p>
               </div>
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Shortcuts */}
-      <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Shortcuts</h3>
-        <div className="grid grid-cols-2 gap-3">
-          {shortcuts.map((shortcut, index) => (
-            <button key={index} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
-              <div className={`${shortcut.color} p-2 rounded-lg`}>
-                <shortcut.icon className="w-4 h-4 text-white" />
-              </div>
-              <span className="text-sm font-medium text-gray-900">{shortcut.name}</span>
-            </button>
           ))}
         </div>
       </div>

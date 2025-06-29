@@ -8,12 +8,10 @@ import { FitnessModule } from "@/components/FitnessModule";
 import { FashionModule } from "@/components/FashionModule";
 import { BodyModule } from "@/components/BodyModule";
 import { PresenceModule } from "@/components/PresenceModule";
-import { CategorySidebar } from "@/components/CategorySidebar";
-import { Menu, Home as HomeIcon, Dumbbell, Shirt, Scan, Brain, Search, Grid3X3 } from "lucide-react";
+import { Menu, Home as HomeIcon, Dumbbell, Shirt, Scan, Brain } from "lucide-react";
 
 const Index = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isCategorySidebarOpen, setIsCategorySidebarOpen] = useState(false);
   const [selectedGender, setSelectedGender] = useState<string | null>(null);
   const [heightWeightData, setHeightWeightData] = useState<{height: string; weight: string; unit: string} | null>(null);
   const [activeModule, setActiveModule] = useState("home");
@@ -22,10 +20,6 @@ const Index = () => {
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
-  };
-
-  const toggleCategorySidebar = () => {
-    setIsCategorySidebarOpen(!isCategorySidebarOpen);
   };
 
   const handleCategorySelect = (tab: string, module: string) => {
@@ -50,16 +44,14 @@ const Index = () => {
 
     const endX = e.changedTouches[0].clientX;
     const diffX = startX - endX;
-    const threshold = 50; // Minimum swipe distance
+    const threshold = 50;
 
     if (Math.abs(diffX) > threshold) {
       const currentIndex = bottomNavItems.findIndex(item => item.id === activeModule);
       
       if (diffX > 0 && currentIndex < bottomNavItems.length - 1) {
-        // Swipe left - next module
         setActiveModule(bottomNavItems[currentIndex + 1].id);
       } else if (diffX < 0 && currentIndex > 0) {
-        // Swipe right - previous module
         setActiveModule(bottomNavItems[currentIndex - 1].id);
       }
     }
@@ -92,12 +84,10 @@ const Index = () => {
     }
   };
 
-  // Show gender selection if no gender is selected
   if (!selectedGender) {
     return <GenderSelection onGenderSelect={setSelectedGender} />;
   }
 
-  // Show height/weight selection if gender is selected but height/weight data is not
   if (selectedGender && !heightWeightData) {
     return (
       <HeightWeightSelection 
@@ -124,12 +114,7 @@ const Index = () => {
             Chesel
           </h1>
           
-          <button 
-            onClick={toggleCategorySidebar}
-            className="p-3 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-all duration-200"
-          >
-            <Grid3X3 className="w-5 h-5 text-black" />
-          </button>
+          <div className="w-12"></div>
         </div>
       </header>
 
@@ -172,13 +157,6 @@ const Index = () => {
       <MobileDrawer 
         isOpen={isDrawerOpen} 
         onClose={() => setIsDrawerOpen(false)}
-        onCategorySelect={handleCategorySelect}
-      />
-
-      {/* Category Sidebar */}
-      <CategorySidebar
-        isOpen={isCategorySidebarOpen}
-        onClose={() => setIsCategorySidebarOpen(false)}
         onCategorySelect={handleCategorySelect}
       />
     </div>
