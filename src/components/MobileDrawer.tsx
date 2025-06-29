@@ -1,3 +1,4 @@
+
 import { useEffect } from "react";
 import { 
   User, 
@@ -7,12 +8,14 @@ import {
   Mail, 
   Star,
   X,
-  LogOut
+  LogOut,
+  Grid3X3
 } from "lucide-react";
 
 interface MobileDrawerProps {
   isOpen: boolean;
   onClose: () => void;
+  onCategorySelect?: (tab: string, module: string) => void;
 }
 
 const menuItems = [
@@ -24,7 +27,20 @@ const menuItems = [
   { icon: LogOut, label: "Logout", href: "#" },
 ];
 
-export const MobileDrawer = ({ isOpen, onClose }: MobileDrawerProps) => {
+const categories = [
+  { id: 'lips', label: 'Lips', module: 'body', tab: 'face' },
+  { id: 'hair', label: 'Hair', module: 'body', tab: 'hair' },
+  { id: 'skin', label: 'Skin', module: 'body', tab: 'face' },
+  { id: 'oral', label: 'Oral', module: 'body', tab: 'oral' },
+  { id: 'beard', label: 'Beard', module: 'body', tab: 'beard' },
+  { id: 'outfit', label: 'Outfit', module: 'fashion', tab: 'outfit' },
+  { id: 'style', label: 'Style', module: 'fashion', tab: 'style' },
+  { id: 'fragrance', label: 'Fragrance', module: 'fashion', tab: 'fragrance' },
+  { id: 'fitness', label: 'Fitness', module: 'fitness', tab: 'workout' },
+  { id: 'presence', label: 'Presence', module: 'presence', tab: 'analysis' },
+];
+
+export const MobileDrawer = ({ isOpen, onClose, onCategorySelect }: MobileDrawerProps) => {
   // Prevent body scroll when drawer is open
   useEffect(() => {
     if (isOpen) {
@@ -49,6 +65,13 @@ export const MobileDrawer = ({ isOpen, onClose }: MobileDrawerProps) => {
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
   }, [isOpen, onClose]);
+
+  const handleCategoryClick = (category: typeof categories[0]) => {
+    if (onCategorySelect) {
+      onCategorySelect(category.tab, category.module);
+    }
+    onClose();
+  };
 
   return (
     <>
@@ -104,6 +127,25 @@ export const MobileDrawer = ({ isOpen, onClose }: MobileDrawerProps) => {
                 <span className="text-xs text-gray-500">Online</span>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Category Section */}
+        <div className="p-6 border-b border-gray-200">
+          <div className="flex items-center space-x-2 mb-4">
+            <Grid3X3 className="w-5 h-5 text-gray-700" />
+            <h3 className="text-lg font-semibold text-black">Categories</h3>
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            {categories.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => handleCategoryClick(category)}
+                className="flex items-center justify-center p-2 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <span className="text-sm font-medium text-gray-700">{category.label}</span>
+              </button>
+            ))}
           </div>
         </div>
 

@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Search, Utensils, Target, Dumbbell, Moon, CheckCircle, Plus, Power } from "lucide-react";
+import { Search, Utensils, Target, Dumbbell, Moon, CheckCircle, Plus, Power, Check } from "lucide-react";
 
 export const DailyProtocol = () => {
   const [scannedFood, setScannedFood] = useState<string | null>(null);
@@ -14,10 +14,9 @@ export const DailyProtocol = () => {
   ];
 
   const dailyProgress = [
-    { task: "Morning Routine", completed: true, time: "6:00 AM" },
-    { task: "Workout", completed: true, time: "7:30 AM" },
-    { task: "Healthy Breakfast", completed: false, time: "8:30 AM" },
-    { task: "Work Focus Block", completed: false, time: "9:00 AM" },
+    { task: "Morning Hydration", description: "Drink 500ml of water upon waking", completed: false },
+    { task: "Skincare Routine", description: "Complete morning skincare regimen", completed: true },
+    { task: "Workout Session", description: "30-45 minutes of physical activity", completed: false },
   ];
 
   const shortcuts = [
@@ -42,6 +41,11 @@ export const DailyProtocol = () => {
     // Simulate food scanning
     setScannedFood("Apple - 95 calories");
     setTimeout(() => setScannedFood(null), 3000);
+  };
+
+  const toggleTaskCompletion = (index: number) => {
+    // This would normally update state, but for demo purposes we'll just log
+    console.log(`Toggling task ${index}`);
   };
 
   return (
@@ -96,23 +100,30 @@ export const DailyProtocol = () => {
         </div>
       </div>
 
-      {/* Daily Progress */}
+      {/* Daily Progress - Checkbox Style */}
       <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Daily Progress</h3>
-        <div className="space-y-3">
+        <div className="space-y-4">
           {dailyProgress.map((item, index) => (
-            <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
-              <div className="flex items-center space-x-3">
-                <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
-                  item.completed ? 'bg-green-500' : 'bg-gray-300'
-                }`}>
-                  {item.completed && <CheckCircle className="w-4 h-4 text-white" />}
-                </div>
-                <span className={`font-medium ${item.completed ? 'text-gray-600' : 'text-gray-900'}`}>
+            <div key={index} className="flex items-start space-x-4 p-4 bg-gray-50 rounded-xl">
+              <button
+                onClick={() => toggleTaskCompletion(index)}
+                className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
+                  item.completed 
+                    ? 'bg-black border-black text-white' 
+                    : 'border-gray-300 hover:border-gray-400'
+                }`}
+              >
+                {item.completed && <Check className="w-4 h-4" />}
+              </button>
+              <div className="flex-1">
+                <h4 className={`font-medium ${item.completed ? 'text-gray-500 line-through' : 'text-gray-900'}`}>
                   {item.task}
-                </span>
+                </h4>
+                <p className={`text-sm ${item.completed ? 'text-gray-400' : 'text-gray-600'}`}>
+                  {item.description}
+                </p>
               </div>
-              <span className="text-sm text-gray-500">{item.time}</span>
             </div>
           ))}
         </div>

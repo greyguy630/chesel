@@ -4,7 +4,6 @@ import { MobileDrawer } from "@/components/MobileDrawer";
 import { GenderSelection } from "@/components/GenderSelection";
 import { HeightWeightSelection } from "@/components/HeightWeightSelection";
 import { DailyProtocol } from "@/components/DailyProtocol";
-import { DailyTasks } from "@/components/DailyTasks";
 import { FitnessModule } from "@/components/FitnessModule";
 import { FashionModule } from "@/components/FashionModule";
 import { BodyModule } from "@/components/BodyModule";
@@ -72,8 +71,7 @@ const Index = () => {
     switch (activeModule) {
       case "home":
         return (
-          <div className="p-6 space-y-6">
-            <DailyTasks />
+          <div className="space-y-6">
             <DailyProtocol />
           </div>
         );
@@ -87,8 +85,7 @@ const Index = () => {
         return <PresenceModule />;
       default:
         return (
-          <div className="p-6 space-y-6">
-            <DailyTasks />
+          <div className="space-y-6">
             <DailyProtocol />
           </div>
         );
@@ -174,7 +171,8 @@ const Index = () => {
       {/* Mobile Drawer */}
       <MobileDrawer 
         isOpen={isDrawerOpen} 
-        onClose={() => setIsDrawerOpen(false)} 
+        onClose={() => setIsDrawerOpen(false)}
+        onCategorySelect={handleCategorySelect}
       />
 
       {/* Category Sidebar */}
