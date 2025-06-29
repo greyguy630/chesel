@@ -1,6 +1,8 @@
 
 import { useState } from "react";
-import { Search, Utensils, Power, Check } from "lucide-react";
+import { Search, Utensils, Power, Check, Activity, Heart, Brain, Dumbbell, Shirt } from "lucide-react";
+import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from 'recharts';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
 export const DailyProtocol = () => {
   const [scannedFood, setScannedFood] = useState<string | null>(null);
@@ -10,6 +12,22 @@ export const DailyProtocol = () => {
     { task: "Skincare Routine", description: "Complete morning skincare regimen", completed: false },
     { task: "Workout Session", description: "30-45 minutes of physical activity", completed: false },
   ]);
+
+  // Mock data for the spider web chart - these would come from actual app data
+  const overallScoreData = [
+    { subject: 'Fitness', score: 75, fullMark: 100 },
+    { subject: 'Fashion', score: 60, fullMark: 100 },
+    { subject: 'Body', score: 80, fullMark: 100 },
+    { subject: 'Presence', score: 70, fullMark: 100 },
+    { subject: 'Daily', score: 85, fullMark: 100 },
+  ];
+
+  const shortcuts = [
+    { icon: Activity, label: "Quick Workout", color: "bg-blue-500" },
+    { icon: Heart, label: "Meditation", color: "bg-red-500" },
+    { icon: Brain, label: "Learning", color: "bg-purple-500" },
+    { icon: Utensils, label: "Meal Prep", color: "bg-green-500" },
+  ];
 
   const quitOptions = [
     "Smoking",
@@ -31,6 +49,18 @@ export const DailyProtocol = () => {
     setDailyTasks(prev => prev.map((task, i) => 
       i === index ? { ...task, completed: !task.completed } : task
     ));
+  };
+
+  const calculateOverallScore = () => {
+    const totalScore = overallScoreData.reduce((sum, item) => sum + item.score, 0);
+    return Math.round(totalScore / overallScoreData.length);
+  };
+
+  const chartConfig = {
+    score: {
+      label: "Score",
+      color: "#000000",
+    },
   };
 
   return (
@@ -69,6 +99,63 @@ export const DailyProtocol = () => {
               </div>
             )}
           </button>
+        </div>
+      </div>
+
+      {/* Overall Score Section */}
+      <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900">Overall Score</h3>
+            <p className="text-gray-600">Your performance across all areas</p>
+          </div>
+          <div className="text-right">
+            <div className="text-3xl font-bold text-black">{calculateOverallScore()}</div>
+            <div className="text-sm text-gray-500">out of 100</div>
+          </div>
+        </div>
+        
+        <div className="h-64">
+          <ChartContainer config={chartConfig} className="w-full h-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <RadarChart data={overallScoreData}>
+                <PolarGrid />
+                <PolarAngleAxis dataKey="subject" className="text-xs" />
+                <PolarRadiusAxis 
+                  angle={90} 
+                  domain={[0, 100]} 
+                  tick={false}
+                />
+                <Radar
+                  name="Score"
+                  dataKey="score"
+                  stroke="#000000"
+                  fill="#000000"
+                  fillOpacity={0.1}
+                  strokeWidth={2}
+                />
+                <ChartTooltip content={<ChartTooltipContent />} />
+              </RadarChart>
+            </ResponsiveContainer>
+          </ChartContainer>
+        </div>
+      </div>
+
+      {/* Quick Actions/Shortcuts */}
+      <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+        <div className="grid grid-cols-2 gap-4">
+          {shortcuts.map((shortcut, index) => (
+            <button
+              key={index}
+              className="flex items-center space-x-3 p-4 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors"
+            >
+              <div className={`p-2 ${shortcut.color} text-white rounded-lg`}>
+                <shortcut.icon className="w-5 h-5" />
+              </div>
+              <span className="font-medium text-gray-900">{shortcut.label}</span>
+            </button>
+          ))}
         </div>
       </div>
 
