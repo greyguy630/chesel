@@ -1,5 +1,5 @@
 import { ArrowLeft } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
 
 interface HeightWeightSelectionProps {
@@ -38,7 +38,7 @@ export const HeightWeightSelection = ({ onComplete, onBack }: HeightWeightSelect
     });
   };
 
-  const ScrollSelector = ({ 
+  const IOSPicker = ({ 
     values, 
     selectedValue, 
     onValueChange, 
@@ -49,31 +49,106 @@ export const HeightWeightSelection = ({ onComplete, onBack }: HeightWeightSelect
     onValueChange: (value: number) => void,
     unit: string 
   }) => {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [isDragging, setIsDragging] = useState(false);
+    const [startY, setStartY] = useState(0);
+    const [scrollTop, setScrollTop] = useState(0);
+
+    const itemHeight = 44;
+    const visibleItems = 5;
+    const containerHeight = visibleItems * itemHeight;
+
+    useEffect(() => {
+      if (containerRef.current) {
+        const selectedIndex = values.indexOf(selectedValue);
+        const scrollPosition = selectedIndex * itemHeight - (containerHeight / 2) + (itemHeight / 2);
+        containerRef.current.scrollTop = Math.max(0, scrollPosition);
+      }
+    }, [selectedValue, values]);
+
+    const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+      if (isDragging) return;
+      
+      const scrollTop = e.currentTarget.scrollTop;
+      const selectedIndex = Math.round((scrollTop + containerHeight / 2 - itemHeight / 2) / itemHeight);
+      const clampedIndex = Math.max(0, Math.min(values.length - 1, selectedIndex));
+      
+      if (values[clampedIndex] !== selectedValue) {
+        onValueChange(values[clampedIndex]);
+      }
+    };
+
+    const handleTouchStart = (e: React.TouchEvent) => {
+      setIsDragging(true);
+      setStartY(e.touches[0].clientY);
+      setScrollTop(containerRef.current?.scrollTop || 0);
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+      if (!isDragging || !containerRef.current) return;
+      
+      const deltaY = startY - e.touches[0].clientY;
+      const newScrollTop = scrollTop + deltaY;
+      containerRef.current.scrollTop = newScrollTop;
+    };
+
+    const handleTouchEnd = () => {
+      setIsDragging(false);
+      if (containerRef.current) {
+        const scrollTop = containerRef.current.scrollTop;
+        const selectedIndex = Math.round((scrollTop + containerHeight / 2 - itemHeight / 2) / itemHeight);
+        const clampedIndex = Math.max(0, Math.min(values.length - 1, selectedIndex));
+        
+        // Snap to the selected item
+        const snapPosition = clampedIndex * itemHeight - (containerHeight / 2) + (itemHeight / 2);
+        containerRef.current.scrollTo({
+          top: Math.max(0, snapPosition),
+          behavior: 'smooth'
+        });
+        
+        onValueChange(values[clampedIndex]);
+      }
+    };
+
     return (
-      <div className="flex flex-col items-center">
-        <div className="relative h-48 overflow-hidden">
-          <div className="absolute inset-x-0 top-1/2 h-12 -mt-6 bg-gray-100 rounded-lg border-2 border-gray-200 z-10 pointer-events-none" />
-          <div className="flex flex-col items-center py-20">
+      <div className="relative">
+        {/* Selection indicator */}
+        <div 
+          className="absolute left-0 right-0 bg-gray-100 border border-gray-200 rounded-lg pointer-events-none z-10"
+          style={{
+            top: `${(containerHeight - itemHeight) / 2}px`,
+            height: `${itemHeight}px`,
+          }}
+        />
+        
+        {/* Gradient overlays */}
+        <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-white to-transparent pointer-events-none z-20" />
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent pointer-events-none z-20" />
+        
+        {/* Scrollable container */}
+        <div
+          ref={containerRef}
+          className="overflow-hidden"
+          style={{ height: `${containerHeight}px` }}
+          onScroll={handleScroll}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
+          <div style={{ paddingTop: `${containerHeight / 2 - itemHeight / 2}px`, paddingBottom: `${containerHeight / 2 - itemHeight / 2}px` }}>
             {values.map((value, index) => {
               const isSelected = value === selectedValue;
-              const distance = Math.abs(values.indexOf(selectedValue) - index);
-              const opacity = Math.max(0.3, 1 - distance * 0.2);
-              const scale = isSelected ? 1 : Math.max(0.7, 1 - distance * 0.1);
-              
               return (
-                <button
+                <div
                   key={value}
-                  onClick={() => onValueChange(value)}
-                  className={`py-2 px-4 transition-all duration-200 ${
-                    isSelected ? 'text-black font-semibold text-lg' : 'text-gray-500'
+                  className={`flex items-center justify-center transition-all duration-200 ${
+                    isSelected ? 'text-black font-semibold text-lg' : 'text-gray-400 text-base'
                   }`}
-                  style={{
-                    opacity,
-                    transform: `scale(${scale})`,
-                  }}
+                  style={{ height: `${itemHeight}px` }}
+                  onClick={() => onValueChange(value)}
                 >
                   {value} {unit}
-                </button>
+                </div>
               );
             })}
           </div>
@@ -143,7 +218,7 @@ export const HeightWeightSelection = ({ onComplete, onBack }: HeightWeightSelect
           <div className="flex flex-col">
             <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Height</h3>
             {isMetric ? (
-              <ScrollSelector
+              <IOSPicker
                 values={cmOptions}
                 selectedValue={selectedHeightCm}
                 onValueChange={setSelectedHeightCm}
@@ -152,7 +227,7 @@ export const HeightWeightSelection = ({ onComplete, onBack }: HeightWeightSelect
             ) : (
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <ScrollSelector
+                  <IOSPicker
                     values={feetOptions}
                     selectedValue={selectedHeightFeet}
                     onValueChange={setSelectedHeightFeet}
@@ -160,7 +235,7 @@ export const HeightWeightSelection = ({ onComplete, onBack }: HeightWeightSelect
                   />
                 </div>
                 <div>
-                  <ScrollSelector
+                  <IOSPicker
                     values={inchesOptions}
                     selectedValue={selectedHeightInches}
                     onValueChange={setSelectedHeightInches}
@@ -174,7 +249,7 @@ export const HeightWeightSelection = ({ onComplete, onBack }: HeightWeightSelect
           {/* Weight Section */}
           <div className="flex flex-col">
             <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Weight</h3>
-            <ScrollSelector
+            <IOSPicker
               values={isMetric ? metricWeights : imperialWeights}
               selectedValue={selectedWeight}
               onValueChange={setSelectedWeight}

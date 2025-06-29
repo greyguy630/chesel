@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { MobileDrawer } from "@/components/MobileDrawer";
 import { GenderSelection } from "@/components/GenderSelection";
@@ -8,10 +7,12 @@ import { FitnessModule } from "@/components/FitnessModule";
 import { FashionModule } from "@/components/FashionModule";
 import { BodyModule } from "@/components/BodyModule";
 import { PresenceModule } from "@/components/PresenceModule";
-import { Menu, Home as HomeIcon, Dumbbell, Shirt, Scan, Brain } from "lucide-react";
+import { RankingModal } from "@/components/RankingModal";
+import { Menu, Home as HomeIcon, Dumbbell, Shirt, Scan, Brain, Trophy } from "lucide-react";
 
 const Index = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isRankingOpen, setIsRankingOpen] = useState(false);
   const [selectedGender, setSelectedGender] = useState<string | null>(null);
   const [heightWeightData, setHeightWeightData] = useState<{height: string; weight: string; unit: string} | null>(null);
   const [activeModule, setActiveModule] = useState("home");
@@ -20,6 +21,10 @@ const Index = () => {
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
+  };
+
+  const toggleRanking = () => {
+    setIsRankingOpen(!isRankingOpen);
   };
 
   const handleCategorySelect = (tab: string, module: string) => {
@@ -114,7 +119,13 @@ const Index = () => {
             Chesel
           </h1>
           
-          <div className="w-12"></div>
+          <button
+            onClick={toggleRanking}
+            className="p-3 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-all duration-200"
+            aria-label="View rankings"
+          >
+            <Trophy className="w-5 h-5 text-gray-700" />
+          </button>
         </div>
       </header>
 
@@ -158,6 +169,12 @@ const Index = () => {
         isOpen={isDrawerOpen} 
         onClose={() => setIsDrawerOpen(false)}
         onCategorySelect={handleCategorySelect}
+      />
+
+      {/* Ranking Modal */}
+      <RankingModal 
+        isOpen={isRankingOpen} 
+        onClose={() => setIsRankingOpen(false)}
       />
     </div>
   );
