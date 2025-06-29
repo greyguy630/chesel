@@ -11,6 +11,17 @@ export const BodyModule = ({ selectedGender }: BodyModuleProps) => {
   const [showScanner, setShowScanner] = useState(true);
   const [showOralScanner, setShowOralScanner] = useState(false);
 
+  const ToothIcon = () => (
+    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M8 12h8v6c0 1-1 2-2 2h-4c-1 0-2-1-2-2v-6z"/>
+      <path d="M8 12c0-2 1-4 4-4s4 2 4 4"/>
+      <rect x="10" y="14" width="1" height="2" fill="currentColor"/>
+      <rect x="12" y="14" width="1" height="2" fill="currentColor"/>
+      <rect x="14" y="14" width="1" height="2" fill="currentColor"/>
+      <path d="M9 8c0-1.5 1-3 3-3s3 1.5 3 3"/>
+    </svg>
+  );
+
   const tabs = [
     { id: 'face', label: 'Face', icon: () => (
       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -33,16 +44,7 @@ export const BodyModule = ({ selectedGender }: BodyModuleProps) => {
         <path d="M8 10c.5-1 1.5-2 2.5-2s2 1 2.5 2"/>
       </svg>
     )},
-    { id: 'oral', label: 'Oral', icon: () => (
-      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M8 12h8v6c0 1-1 2-2 2h-4c-1 0-2-1-2-2v-6z"/>
-        <path d="M8 12c0-2 1-4 4-4s4 2 4 4"/>
-        <rect x="10" y="14" width="1" height="2" fill="currentColor"/>
-        <rect x="12" y="14" width="1" height="2" fill="currentColor"/>
-        <rect x="14" y="14" width="1" height="2" fill="currentColor"/>
-        <path d="M9 8c0-1.5 1-3 3-3s3 1.5 3 3"/>
-      </svg>
-    )},
+    { id: 'oral', label: 'Oral', icon: ToothIcon },
     ...(selectedGender === 'male' ? [{ id: 'beard', label: 'Beard', icon: () => (
       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <path d="M12 2c-4 0-7 3-7 7v2c0 3 2 6 5 7 1 0 2 0 3 0s2 0 3 0c3-1 5-4 5-7v-2c0-4-3-7-7-7z"/>
@@ -429,7 +431,7 @@ export const BodyModule = ({ selectedGender }: BodyModuleProps) => {
                   : 'text-gray-600 hover:bg-gray-100/50'
               }`}
             >
-              <tab.icon className="w-4 h-4 flex-shrink-0" />
+              <tab.icon />
               <span className="text-sm font-medium whitespace-nowrap">{tab.label}</span>
             </button>
           ))}
